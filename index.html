@@ -271,6 +271,13 @@ body.rtl .tb{font-family:var(--fa)}
 .br-p{font-family:var(--fd);font-size:16px;color:var(--brown3);font-weight:600;width:36px;text-align:right;flex-shrink:0}
 .br-a{font-weight:600;font-size:13px;color:var(--brown2);width:90px;text-align:right;flex-shrink:0}
 body.rtl .br-p,body.rtl .br-a{text-align:left}
+/* Fix: numbers must always read LTR even in Arabic RTL mode */
+body.rtl .mc-v, body.rtl .hst-v, body.rtl .sk-v, body.rtl .gcs-v,
+body.rtl .br-a, body.rtl .br-p, body.rtl .bt-v, body.rtl .nav-sal,
+body.rtl .sal-big, body.rtl .cbi-v, body.rtl .ph-amt, body.rtl #sal-disp,
+body.rtl .plan-price-n, body.rtl .nw-result-v {
+  direction:ltr;unicode-bidi:plaintext
+}
 .bud-tot{display:flex;justify-content:space-between;align-items:center;padding:14px 15px;background:var(--brown);border-radius:var(--r);margin-top:7px}
 .bt-l{font-size:12px;color:rgba(253,250,243,.55);text-transform:uppercase;letter-spacing:.1em}
 .bt-v{font-family:var(--fd);font-size:21px;color:var(--gold-lt);font-weight:700}
@@ -825,7 +832,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
             <div style="font-size:11px;color:var(--brown4);margin-top:2px" id="help-sub">Un problème ? Une question ? Contactez-nous</div>
           </div>
         </div>
-        <a href="/cdn-cgi/l/email-protection#cca1a5b6ada2e2aeb9a8aba9b88caba1ada5a0e2afa3a1" style="display:inline-flex;align-items:center;gap:7px;background:var(--brown);color:var(--gold-lt);border-radius:100px;padding:10px 18px;font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fb);flex-shrink:0" onmouseover="this.style.background='var(--brown2)'" onmouseout="this.style.background='var(--brown)'">
+        <a href="mailto:mizan.budget@gmail.com" style="display:inline-flex;align-items:center;gap:7px;background:var(--brown);color:var(--gold-lt);border-radius:100px;padding:10px 18px;font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fb);flex-shrink:0" onmouseover="this.style.background='var(--brown2)'" onmouseout="this.style.background='var(--brown)'">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           <span id="help-btn">Envoyer un email</span>
         </a>
@@ -835,7 +842,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="copyright-ic" style="cursor:default" title="Mizan"></svg>
         <p id="footer-txt" style="margin:0">Mizan © 2026 · Votre assistant budget au Maroc · Données indicatives</p>
         <span>·</span>
-        <a href="/cdn-cgi/l/email-protection#aac7c3d0cbc484c8dfcecdcfdeeacdc7cbc3c684c9c5c7" style="color:var(--gold-dk);text-decoration:none"><span class="__cf_email__" data-cfemail="fb9692819a95d5998e9f9c9e8fbb9c969a9297d5989496">[email&#160;protected]</span></a>
+        <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);text-decoration:none">mizan.budget@gmail.com</a>
         <span>·</span>
         <button onclick="openPrivacy()" style="background:none;border:none;color:var(--gold-dk);cursor:pointer;font-size:12px;font-family:var(--fb);text-decoration:underline;padding:0">🔒 Confidentialité</button>
       </div>
@@ -875,16 +882,16 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       Mizan n'utilise aucun cookie de tracking, aucun pixel publicitaire, et aucun outil d'analyse comportementale de tiers.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">7. Droit à l'effacement</div>
-      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="/cdn-cgi/l/email-protection#c8a5a1b2a9a6e6aabdacafadbc88afa5a9a1a4e6aba7a5" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="bad7d3c0dbd494d8cfdedddfcefaddd7dbd3d694d9d5d7">[email&#160;protected]</span></a></strong> pour toute demande.
+      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong> pour toute demande.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">8. Contact</div>
-      Pour toute question relative à la confidentialité de vos données : <a href="/cdn-cgi/l/email-protection#2b4642514a4505495e4f4c4e5f6b4c464a424705484446" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="d1bcb8abb0bfffb3a4b5b6b4a591b6bcb0b8bdffb2bebc">[email&#160;protected]</span></a>
+      Pour toute question relative à la confidentialité de vos données : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">9. Responsabilité</div>
       Les données budgétaires (salaire, dépenses, objectifs) sont indicatives et à titre informatif uniquement. Mizan décline toute responsabilité pour les décisions financières prises sur la base des données affichées.
 
       <div style="margin-top:16px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4)">
-        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="/cdn-cgi/l/email-protection#a6cbcfdcc7c888c4d3c2c1c3d2e6c1cbc7cfca88c5c9cb" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="caa7a3b0aba4e4a8bfaeadafbe8aada7aba3a6e4a9a5a7">[email&#160;protected]</span></a>
+        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
       </div>
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-top:12px" onclick="closePrivacy()">J'ai lu et j'accepte ✓</button>
@@ -1006,7 +1013,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Admin contact fallback -->
       <div style="margin-top:14px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4);text-align:center;line-height:1.7">
         Vous avez oublié votre réponse secrète ?<br>
-        Contactez l'admin : <a href="/cdn-cgi/l/email-protection#9cf1f5e6fdf2b2fee9f8fbf9e8dcfbf1fdf5f0b2fff3f1" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="24494d5e454a0a465140434150644349454d480a474b49">[email&#160;protected]</span></a>
+        Contactez l'admin : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
       </div>
       <div style="text-align:center;margin-top:10px">
         <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--brown4);cursor:pointer;font-size:12px;font-family:var(--fb)">← Retour à la connexion</button>
@@ -1128,7 +1135,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl"></span><br>
-          <a id="barid-mailto" href="/cdn-cgi/l/email-protection#8fe2e6f5eee1a1edfaebe8eafbcfe8e2eee6e3a1ece0e2" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="573a3e2d36397935223330322317303a363e3b7934383a">[email&#160;protected]</span></a><br>
+          <a id="barid-mailto" href="mailto:mizan.budget@gmail.com" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
           <span id="pay-receipt-subj-lbl"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1173,7 +1180,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl2"></span><br>
-          <a id="other-mailto" href="/cdn-cgi/l/email-protection#93fefae9f2fdbdf1e6f7f4f6e7d3f4fef2faffbdf0fcfe" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="ddb0b4a7bcb3f3bfa8b9bab8a99dbab0bcb4b1f3beb2b0">[email&#160;protected]</span></a><br>
+          <a id="other-mailto" href="mailto:mizan.budget@gmail.com" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
           <span id="pay-receipt-subj-lbl2"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1205,7 +1212,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       Votre accès Pro sera activé sous <strong>24h ouvrées</strong> après réception de votre reçu.
     </p>
     <div style="background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.2);border-radius:var(--r);padding:12px;margin-bottom:16px;font-size:12px;color:var(--brown3);line-height:1.7">
-      📧 Envoyez votre reçu à <strong><a href="/cdn-cgi/l/email-protection#503d392a313e7e32253437352410373d31393c7e333f3d" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="6d0004170c03430f18090a08192d0a000c0401430e0200">[email&#160;protected]</span></a></strong><br>
+      📧 Envoyez votre reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong><br>
       Objet : <strong>Reçu Mizan Pro</strong> + votre email
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-bottom:10px" onclick="closeModal('modal-pending');chooseLite()">
@@ -1263,7 +1270,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Instructions -->
       <div style="background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.25);border-radius:var(--r);padding:14px 16px;margin-top:14px;font-size:12px;color:var(--brown3);line-height:1.8">
         <strong>📋 Comment approuver un paiement :</strong><br>
-        1. L'utilisateur t'envoie un reçu à <strong><a href="/cdn-cgi/l/email-protection#214c485b404f0f43544546445561464c40484d0f424e4c" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="503d392a313e7e32253437352410373d31393c7e333f3d">[email&#160;protected]</span></a></strong><br>
+        1. L'utilisateur t'envoie un reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong><br>
         2. Tu vérifies que le montant est bien <strong>45 DH</strong><br>
         3. Tu trouves l'email dans la liste ci-dessus et tu cliques <strong>✅ Approuver</strong><br>
         4. L'accès Pro de l'utilisateur est activé immédiatement pour <strong>30 jours</strong>
@@ -1303,7 +1310,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ════════════════════ DATA ════════════════════ */
 const CITIES = {
   "Casablanca":  {tier:"high",loyer:[3000,6000],food:[2200,3000],transport:[400,700],util:[350,500]},
@@ -3100,7 +3107,7 @@ const TAB_IDS_PRO = ["tp-budget","tp-goal","tp-tips","tp-stores","tp-tracker","t
 
 /* ── EXPENSE TRACKER ── */
 function buildTrackerTab(sal){
-  const isPro = isProActive();
+  const isPro = isProActive()||(state.plan==='pro');
   if(!isPro){
     $('lock-overlay-tracker').style.display='flex';
     $('tracker-content').innerHTML=`<div style="height:200px;pointer-events:none;opacity:0.3">${buildTrackerHTML(sal)}</div>`;
@@ -3224,7 +3231,7 @@ function loadTrackerHistory(){
 
 /* ── INVESTMENT TAB ── */
 function buildInvestTab(sal){
-  const isPro=isProActive();
+  const isPro=isProActive()||(state.plan==='pro');
   if(!isPro){
     $('lock-overlay-invest').style.display='flex';
     $('invest-content').innerHTML=`<div style="height:200px;pointer-events:none;opacity:0.3">${buildInvestHTML(sal)}</div>`;
@@ -3672,17 +3679,42 @@ function initStep3(){
   renderTimeGrid(state.goalAmount);
 
   $('goal-amount').oninput=()=>{
+    $('goal-amount').dataset.autoCalc='0'; // user is typing manually
     state.goalAmount=parseFloat($('goal-amount').value)||0;
     state.months=0; // reset selection
     renderTimeGrid(state.goalAmount);
+  };
+
+  // Reverse direction: entering months → auto-calculate achievable goal
+  $('custom-months').oninput=function(){
+    const m=parseInt(this.value);
+    if(m&&m>0){
+      const achievable=Math.round(state.salary*0.30*m);
+      $('goal-amount').value=achievable;
+      state.goalAmount=achievable;
+      state.months=m;
+      renderTimeGrid(achievable);
+    }
   };
 }
 
 function selTime(v,el){
   document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
-  if(v===0){$('custom-time-wrap').style.display='block';state.months=0;}
-  else{$('custom-time-wrap').style.display='none';state.months=v;}
+  if(v===0){
+    $('custom-time-wrap').style.display='block';
+    state.months=0;
+  } else {
+    $('custom-time-wrap').style.display='none';
+    state.months=v;
+    // Auto-calculate achievable goal for this duration
+    const achievable=Math.round(state.salary*0.30*v);
+    if($('goal-amount')&&(!$('goal-amount').value||$('goal-amount').dataset.autoCalc==='1')){
+      $('goal-amount').value=achievable;
+      $('goal-amount').dataset.autoCalc='1';
+      state.goalAmount=achievable;
+    }
+  }
 }
 
 /* ════════════════════ DASHBOARD ════════════════════ */
@@ -3755,7 +3787,7 @@ function buildDashboard(){
   buildGoalTab(sal,savePm,monthsCalc,state.goalAmount);
   buildTipsTab();
   buildStoresTab(sal);
-  if(isProActive()){
+  if(isProActive()||(state.plan==='pro')){
     buildTrackerTab(sal);
     buildInvestTab(sal);
     // Save state for Pro user
@@ -3780,7 +3812,7 @@ function buildDashboard(){
 
 /* ══ TABS ══ */
 function buildTabs(){
-  const isPro=isProActive();
+  const isPro=isProActive()||(state.plan==='pro');
   const labels=isPro?TABS_LABELS_PRO[state.lang]:TABS_LABELS[state.lang];
   const tabIds=isPro?TAB_IDS_PRO:TAB_IDS;
   const hdr=$('tabs-hdr');hdr.innerHTML='';
