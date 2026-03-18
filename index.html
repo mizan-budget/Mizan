@@ -361,9 +361,13 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 .footer a{color:var(--gold-dk);text-decoration:none}
 
 /* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(61,43,31,.55);z-index:999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-bg{position:fixed;inset:0;background:rgba(61,43,31,.55);z-index:999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);overflow-y:auto}
 .modal-bg.open{display:flex}
 .modal{background:var(--cream);border-radius:var(--rlg);padding:36px;max-width:460px;width:100%;box-shadow:var(--shadow-lg);border:1px solid var(--line);animation:fadeUp .3s ease}
+@media(max-width:600px){
+  .modal-bg{align-items:flex-start;padding:12px;padding-bottom:32px}
+  .modal{padding:24px 18px;border-radius:var(--r);max-height:none!important;overflow-y:visible!important}
+}
 .modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .modal-ttl{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--brown)}
 .modal-x{background:none;border:none;font-size:22px;color:var(--brown3);cursor:pointer;padding:4px 8px;border-radius:var(--rsm);transition:all .2s;line-height:1}
@@ -821,7 +825,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
             <div style="font-size:11px;color:var(--brown4);margin-top:2px" id="help-sub">Un problème ? Une question ? Contactez-nous</div>
           </div>
         </div>
-        <a href="/cdn-cgi/l/email-protection#096460736867276b7c6d6e6c7d496e64686065276a6664" style="display:inline-flex;align-items:center;gap:7px;background:var(--brown);color:var(--gold-lt);border-radius:100px;padding:10px 18px;font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fb);flex-shrink:0" onmouseover="this.style.background='var(--brown2)'" onmouseout="this.style.background='var(--brown)'">
+        <a href="/cdn-cgi/l/email-protection#cca1a5b6ada2e2aeb9a8aba9b88caba1ada5a0e2afa3a1" style="display:inline-flex;align-items:center;gap:7px;background:var(--brown);color:var(--gold-lt);border-radius:100px;padding:10px 18px;font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fb);flex-shrink:0" onmouseover="this.style.background='var(--brown2)'" onmouseout="this.style.background='var(--brown)'">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           <span id="help-btn">Envoyer un email</span>
         </a>
@@ -831,7 +835,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="copyright-ic" style="cursor:default" title="Mizan"></svg>
         <p id="footer-txt" style="margin:0">Mizan © 2026 · Votre assistant budget au Maroc · Données indicatives</p>
         <span>·</span>
-        <a href="/cdn-cgi/l/email-protection#1f7276657e71317d6a7b787a6b5f78727e7673317c7072" style="color:var(--gold-dk);text-decoration:none"><span class="__cf_email__" data-cfemail="6d0004170c03430f18090a08192d0a000c0401430e0200">[email&#160;protected]</span></a>
+        <a href="/cdn-cgi/l/email-protection#aac7c3d0cbc484c8dfcecdcfdeeacdc7cbc3c684c9c5c7" style="color:var(--gold-dk);text-decoration:none"><span class="__cf_email__" data-cfemail="fb9692819a95d5998e9f9c9e8fbb9c969a9297d5989496">[email&#160;protected]</span></a>
         <span>·</span>
         <button onclick="openPrivacy()" style="background:none;border:none;color:var(--gold-dk);cursor:pointer;font-size:12px;font-family:var(--fb);text-decoration:underline;padding:0">🔒 Confidentialité</button>
       </div>
@@ -871,16 +875,16 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       Mizan n'utilise aucun cookie de tracking, aucun pixel publicitaire, et aucun outil d'analyse comportementale de tiers.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">7. Droit à l'effacement</div>
-      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="/cdn-cgi/l/email-protection#fa9793809b94d4988f9e9d9f8eba9d979b9396d4999597" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="2e4347544f40004c5b4a494b5a6e49434f4742004d4143">[email&#160;protected]</span></a></strong> pour toute demande.
+      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="/cdn-cgi/l/email-protection#c8a5a1b2a9a6e6aabdacafadbc88afa5a9a1a4e6aba7a5" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="bad7d3c0dbd494d8cfdedddfcefaddd7dbd3d694d9d5d7">[email&#160;protected]</span></a></strong> pour toute demande.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">8. Contact</div>
-      Pour toute question relative à la confidentialité de vos données : <a href="/cdn-cgi/l/email-protection#315c584b505f1f53445556544571565c50585d1f525e5c" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="7a1713001b1454180f1e1d1f0e3a1d171b131654191517">[email&#160;protected]</span></a>
+      Pour toute question relative à la confidentialité de vos données : <a href="/cdn-cgi/l/email-protection#2b4642514a4505495e4f4c4e5f6b4c464a424705484446" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="d1bcb8abb0bfffb3a4b5b6b4a591b6bcb0b8bdffb2bebc">[email&#160;protected]</span></a>
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">9. Responsabilité</div>
       Les données budgétaires (salaire, dépenses, objectifs) sont indicatives et à titre informatif uniquement. Mizan décline toute responsabilité pour les décisions financières prises sur la base des données affichées.
 
       <div style="margin-top:16px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4)">
-        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="/cdn-cgi/l/email-protection#395450435857175b4c5d5e5c4d795e54585055175a5654" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="8ae7e3f0ebe4a4e8ffeeedeffecaede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
+        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="/cdn-cgi/l/email-protection#a6cbcfdcc7c888c4d3c2c1c3d2e6c1cbc7cfca88c5c9cb" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="caa7a3b0aba4e4a8bfaeadafbe8aada7aba3a6e4a9a5a7">[email&#160;protected]</span></a>
       </div>
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-top:12px" onclick="closePrivacy()">J'ai lu et j'accepte ✓</button>
@@ -889,7 +893,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 
 
 <div class="modal-bg" id="modal-login">
-  <div class="modal modal-lg">
+  <div class="modal modal-lg" style="max-height:90vh;overflow-y:auto">
     <div class="modal-h">
       <div class="modal-ttl" id="login-ttl">Accès Mizan Pro</div>
       <button class="modal-x" onclick="closeModal('modal-login')">✕</button>
@@ -1002,7 +1006,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Admin contact fallback -->
       <div style="margin-top:14px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4);text-align:center;line-height:1.7">
         Vous avez oublié votre réponse secrète ?<br>
-        Contactez l'admin : <a href="/cdn-cgi/l/email-protection#a2cfcbd8c3cc8cc0d7c6c5c7d6e2c5cfc3cbce8cc1cdcf" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="f39e9a89929ddd918697949687b3949e929a9fdd909c9e">[email&#160;protected]</span></a>
+        Contactez l'admin : <a href="/cdn-cgi/l/email-protection#9cf1f5e6fdf2b2fee9f8fbf9e8dcfbf1fdf5f0b2fff3f1" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="24494d5e454a0a465140434150644349454d480a474b49">[email&#160;protected]</span></a>
       </div>
       <div style="text-align:center;margin-top:10px">
         <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--brown4);cursor:pointer;font-size:12px;font-family:var(--fb)">← Retour à la connexion</button>
@@ -1124,7 +1128,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl"></span><br>
-          <a id="barid-mailto" href="/cdn-cgi/l/email-protection#54393d2e353a7a362130333120143339353d387a373b39" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="d1bcb8abb0bfffb3a4b5b6b4a591b6bcb0b8bdffb2bebc">[email&#160;protected]</span></a><br>
+          <a id="barid-mailto" href="/cdn-cgi/l/email-protection#8fe2e6f5eee1a1edfaebe8eafbcfe8e2eee6e3a1ece0e2" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="573a3e2d36397935223330322317303a363e3b7934383a">[email&#160;protected]</span></a><br>
           <span id="pay-receipt-subj-lbl"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1169,7 +1173,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl2"></span><br>
-          <a id="other-mailto" href="/cdn-cgi/l/email-protection#75181c0f141b5b170011121001351218141c195b161a18" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="3d5054475c53135f48595a58497d5a505c5451135e5250">[email&#160;protected]</span></a><br>
+          <a id="other-mailto" href="/cdn-cgi/l/email-protection#93fefae9f2fdbdf1e6f7f4f6e7d3f4fef2faffbdf0fcfe" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="ddb0b4a7bcb3f3bfa8b9bab8a99dbab0bcb4b1f3beb2b0">[email&#160;protected]</span></a><br>
           <span id="pay-receipt-subj-lbl2"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1201,7 +1205,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       Votre accès Pro sera activé sous <strong>24h ouvrées</strong> après réception de votre reçu.
     </p>
     <div style="background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.2);border-radius:var(--r);padding:12px;margin-bottom:16px;font-size:12px;color:var(--brown3);line-height:1.7">
-      📧 Envoyez votre reçu à <strong><a href="/cdn-cgi/l/email-protection#98f5f1e2f9f6b6faedfcfffdecd8fff5f9f1f4b6fbf7f5" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="fc9195869d92d29e89989b9988bc9b919d9590d29f9391">[email&#160;protected]</span></a></strong><br>
+      📧 Envoyez votre reçu à <strong><a href="/cdn-cgi/l/email-protection#503d392a313e7e32253437352410373d31393c7e333f3d" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="6d0004170c03430f18090a08192d0a000c0401430e0200">[email&#160;protected]</span></a></strong><br>
       Objet : <strong>Reçu Mizan Pro</strong> + votre email
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-bottom:10px" onclick="closeModal('modal-pending');chooseLite()">
@@ -1259,7 +1263,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Instructions -->
       <div style="background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.25);border-radius:var(--r);padding:14px 16px;margin-top:14px;font-size:12px;color:var(--brown3);line-height:1.8">
         <strong>📋 Comment approuver un paiement :</strong><br>
-        1. L'utilisateur t'envoie un reçu à <strong><a href="/cdn-cgi/l/email-protection#c4a9adbea5aaeaa6b1a0a3a1b084a3a9a5ada8eaa7aba9" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="593430233837773b2c3d3e3c2d193e34383035773a3634">[email&#160;protected]</span></a></strong><br>
+        1. L'utilisateur t'envoie un reçu à <strong><a href="/cdn-cgi/l/email-protection#214c485b404f0f43544546445561464c40484d0f424e4c" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="503d392a313e7e32253437352410373d31393c7e333f3d">[email&#160;protected]</span></a></strong><br>
         2. Tu vérifies que le montant est bien <strong>45 DH</strong><br>
         3. Tu trouves l'email dans la liste ci-dessus et tu cliques <strong>✅ Approuver</strong><br>
         4. L'accès Pro de l'utilisateur est activé immédiatement pour <strong>30 jours</strong>
@@ -4086,4 +4090,9 @@ function closePrivacy(){
   // Always unlock scroll and close modals on page load
   document.body.style.overflow='';
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
-  refreshWelcome()
+  refreshWelcome();
+  goTo('sw');
+})();
+</script>
+</body>
+</html>
