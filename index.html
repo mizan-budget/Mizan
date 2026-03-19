@@ -1265,6 +1265,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
           <button onclick="adminShowTab('active')" id="admin-tab-active" style="flex:1;min-width:80px;padding:12px 8px;border:none;background:transparent;color:var(--brown4);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fb);border-bottom:3px solid transparent;white-space:nowrap">✅ Actifs Pro</button>
           <button onclick="adminShowTab('banned')" id="admin-tab-banned" style="flex:1;min-width:80px;padding:12px 8px;border:none;background:transparent;color:var(--brown4);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fb);border-bottom:3px solid transparent;white-space:nowrap">🚫 Bannis</button>
           <button onclick="adminShowTab('all')" id="admin-tab-all" style="flex:1;min-width:80px;padding:12px 8px;border:none;background:transparent;color:var(--brown4);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fb);border-bottom:3px solid transparent;white-space:nowrap">👥 Tous</button>
+          <button onclick="adminShowTab('visitors')" id="admin-tab-visitors" style="flex:1;min-width:80px;padding:12px 8px;border:none;background:transparent;color:var(--brown4);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fb);border-bottom:3px solid transparent;white-space:nowrap">👁️ Visiteurs</button>
         </div>
         <div id="admin-content" style="padding:16px;display:flex;flex-direction:column;gap:10px;min-height:100px"></div>
       </div>
@@ -1972,6 +1973,26 @@ async function fsGetAllPending(){
     return pending;
   }catch(e){ console.error('fsGetAllPending error:',e); return getLocalPending(); }
 }
+async function fsGetAllVisitors(){
+  if(!db) return [];
+  try{
+    const s=await db.collection('mizan_visitors').orderBy('visitedAt','desc').limit(200).get();
+    return s.docs.map(d=>d.data());
+  }catch(e){ return []; }
+}
+async function trackVisitor(){
+  if(!db) return;
+  try{
+    const visitorId = 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+    await db.collection('mizan_visitors').doc(visitorId).set({
+      name: state.name||'—',
+      city: state.city||'—',
+      lang: state.lang||'fr',
+      plan: state.plan||'lite',
+      visitedAt: Date.now()
+    });
+  }catch(e){}
+}
 
 // localStorage fallbacks
 function getLocalUsers(){
@@ -2595,6 +2616,7 @@ async function showAdminDashboard(){
 async function updateAdminStats(){
   const users=await getAllUsers();
   const pending=await getAllPending();
+  const visitors=await fsGetAllVisitors();
   const pendingCount=pending.filter(p=>p.r.status==='pending').length;
   const active=users.filter(({u})=>u.expiry&&Date.now()<u.expiry).length;
   const banned=users.filter(({u})=>u.paymentStatus==='revoked').length;
@@ -2616,7 +2638,11 @@ async function updateAdminStats(){
     </div>
     <div style="background:rgba(107,143,168,.08);border:1px solid rgba(107,143,168,.2);border-radius:var(--r);padding:12px;text-align:center">
       <div style="font-family:var(--fd);font-size:26px;color:var(--blue);font-weight:700">${total}</div>
-      <div style="font-size:10px;color:var(--brown4);margin-top:2px;text-transform:uppercase;letter-spacing:.06em">Total comptes</div>
+      <div style="font-size:10px;color:var(--brown4);margin-top:2px;text-transform:uppercase;letter-spacing:.06em">Comptes</div>
+    </div>
+    <div style="background:rgba(139,111,174,.08);border:1px solid rgba(139,111,174,.2);border-radius:var(--r);padding:12px;text-align:center;grid-column:span 4;cursor:pointer" onclick="adminShowTab('visitors')">
+      <div style="font-family:var(--fd);font-size:26px;color:var(--purple);font-weight:700">${visitors.length}</div>
+      <div style="font-size:10px;color:var(--brown4);margin-top:2px;text-transform:uppercase;letter-spacing:.06em">👁️ Visiteurs · Cliquer pour voir</div>
     </div>`;
 }
 
@@ -2629,7 +2655,7 @@ async function getAllPending(){
 }
 
 async function adminShowTab(tab){
-  ['pending','active','banned','all'].forEach(t=>{
+  ['pending','active','banned','all','visitors'].forEach(t=>{
     const b=document.getElementById('admin-tab-'+t);
     if(!b) return;
     const isActive=t===tab;
@@ -2642,9 +2668,49 @@ async function adminShowTab(tab){
   const content=document.getElementById('admin-content');
   if(!content) return;
   content.innerHTML=`<div style="text-align:center;padding:30px;color:var(--brown4);font-size:13px">⏳ Chargement depuis Firebase...</div>`;
+
+  let html='';
+
+  if(tab==='visitors'){
+    const visitors=await fsGetAllVisitors();
+    const total=visitors.length;
+    html=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:13px;font-weight:700;color:var(--brown)">👁️ ${total} visite${total>1?'s':''} enregistrée${total>1?'s':''}</div>
+      <div style="font-size:11px;color:var(--brown4)">Nom + ville uniquement · Aucun salaire stocké</div>
+    </div>`;
+    if(!total){
+      html+=`<div style="text-align:center;padding:30px;color:var(--brown4);font-size:13px"><div style="font-size:32px;margin-bottom:8px">📭</div>Aucune visite enregistrée pour l'instant.</div>`;
+    } else {
+      // Group by city for a summary
+      const cityCounts={};
+      visitors.forEach(v=>{ cityCounts[v.city]=(cityCounts[v.city]||0)+1; });
+      const topCities=Object.entries(cityCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      html+=`<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">
+        ${topCities.map(([city,count])=>`<span style="background:var(--beige2);border:1px solid var(--beige3);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--brown2)">📍 ${city} · ${count}</span>`).join('')}
+      </div>`;
+      html+=`<div style="display:flex;flex-direction:column;gap:7px">`;
+      visitors.forEach(v=>{
+        const date=new Date(v.visitedAt).toLocaleDateString('fr-MA',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const planBadge=v.plan==='pro'
+          ?`<span style="background:var(--gold);color:var(--brown);font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px">PRO</span>`
+          :`<span style="background:var(--beige3);color:var(--brown4);font-size:9px;font-weight:600;padding:2px 7px;border-radius:100px">Lite</span>`;
+        html+=`<div style="background:var(--beige);border:1px solid var(--beige3);border-radius:var(--rsm);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-size:13px;font-weight:600;color:var(--brown)">${v.name||'—'}</span>
+            <span style="font-size:12px;color:var(--brown3)">📍 ${v.city||'—'}</span>
+            ${planBadge}
+          </div>
+          <span style="font-size:11px;color:var(--brown4)">${date}</span>
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    content.innerHTML=html;
+    return;
+  }
+
   const users=await getAllUsers();
   const pending=await getAllPending();
-  let html='';
 
   if(tab==='pending'){
     const pend=pending.filter(p=>p.r.status==='pending');
@@ -2794,16 +2860,12 @@ async function adminRevoke(email){
   const key=getStorageKey(email);
   try{
     const fsUser=await fsGetUser(email)||{};
-    const u={...JSON.parse(localStorage.getItem(key)||'{}'),...fsUser};
-    u.email=u.email||email;
-    u.expiry=0; u.paymentStatus='revoked';
+    const base={...JSON.parse(localStorage.getItem(key)||'{}'),...fsUser};
+    const u={...base, email:email, expiry:0, paymentStatus:'revoked', revokedAt:Date.now()};
     localStorage.setItem(key,JSON.stringify(u));
-    await fsSaveUser(u);
-    try{
-      const s=JSON.parse(localStorage.getItem('mizan_session')||'null');
-      if(s&&s.email===email){ s.expiry=0; localStorage.setItem('mizan_session',JSON.stringify(s)); }
-    }catch(e){}
-    updateAdminStats(); adminShowTab('active');
+    // Force overwrite in Firestore — don't merge, to ensure revoked status wins
+    if(db) await fsUserRef(email).set(u);
+    updateAdminStats(); adminShowTab('all');
   }catch(e){ alert('Erreur: '+e.message); }
 }
 
@@ -2812,15 +2874,10 @@ async function adminBan(email){
   const key=getStorageKey(email);
   try{
     const fsUser=await fsGetUser(email)||{};
-    const u={...JSON.parse(localStorage.getItem(key)||'{}'),...fsUser};
-    u.email=u.email||email;
-    u.expiry=0; u.paymentStatus='revoked';
+    const base={...JSON.parse(localStorage.getItem(key)||'{}'),...fsUser};
+    const u={...base, email:email, expiry:0, paymentStatus:'revoked', revokedAt:Date.now()};
     localStorage.setItem(key,JSON.stringify(u));
-    await fsSaveUser(u);
-    try{
-      const s=JSON.parse(localStorage.getItem('mizan_session')||'null');
-      if(s&&s.email===email){ s.expiry=0; localStorage.setItem('mizan_session',JSON.stringify(s)); }
-    }catch(e){}
+    if(db) await fsUserRef(email).set(u);
     updateAdminStats(); adminShowTab('all');
   }catch(e){ alert('Erreur: '+e.message); }
 }
@@ -2841,14 +2898,31 @@ async function adminReactivate(email){
 }
 
 async function adminDeleteAccount(email){
-  if(!confirm('⚠️ SUPPRIMER DÉFINITIVEMENT le compte de '+email+' ?\n\nCette action est irréversible.')) return;
+  if(!confirm('⚠️ SUPPRIMER DÉFINITIVEMENT le compte de '+email+' ?\n\nL\'utilisateur pourra se réinscrire avec le même email comme s\'il était nouveau.\nCette action est irréversible.')) return;
+  const key=getStorageKey(email);
+  const pk='mizan_pending_'+btoa(email.toLowerCase()).replace(/=/g,'');
+  // Wipe localStorage completely
+  localStorage.removeItem(key);
+  localStorage.removeItem(pk);
+  localStorage.removeItem('mizan_session'); // clear session if it was this user
+  // Wipe Firestore completely
+  try{ if(db) await fsUserRef(email).delete(); }catch(e){}
+  try{ if(db) await fsPendingRef(email).delete(); }catch(e){}
+  alert('✅ Compte de '+email+' supprimé. Il peut se réinscrire librement.');
+  updateAdminStats(); adminShowTab('banned');
+}
+
+async function adminDeleteAccountAll(email){
+  if(!confirm('⚠️ SUPPRIMER définitivement le compte de '+email+' ?\n\nL\'utilisateur pourra se réinscrire avec le même email comme s\'il était nouveau.\nCette action est irréversible.')) return;
   const key=getStorageKey(email);
   const pk='mizan_pending_'+btoa(email.toLowerCase()).replace(/=/g,'');
   localStorage.removeItem(key);
   localStorage.removeItem(pk);
-  try{ await fsUserRef(email).delete(); }catch(e){}
-  try{ await fsPendingRef(email).delete(); }catch(e){}
-  updateAdminStats(); adminShowTab('banned');
+  localStorage.removeItem('mizan_session');
+  try{ if(db) await fsUserRef(email).delete(); }catch(e){}
+  try{ if(db) await fsPendingRef(email).delete(); }catch(e){}
+  alert('✅ Compte de '+email+' supprimé. Il peut se réinscrire librement.');
+  updateAdminStats(); adminShowTab('all');
 }
 
 async function adminReject(pendingKey){
@@ -2892,17 +2966,6 @@ async function adminResetPass(email){
     alert('✅ Mot de passe réinitialisé pour '+email+'\n\nNouveau mot de passe : '+newPass+'\n\nCommuniquez-le à l\'utilisateur par message privé.');
     adminShowTab('all');
   }catch(e){ alert('Erreur: '+e.message); }
-}
-
-async function adminDeleteAccountAll(email){
-  if(!confirm('⚠️ SUPPRIMER définitivement le compte de '+email+' ?\nCette action est irréversible.')) return;
-  const key=getStorageKey(email);
-  localStorage.removeItem(key);
-  const pk='mizan_pending_'+btoa(email.toLowerCase()).replace(/=/g,'');
-  localStorage.removeItem(pk);
-  try{ await fsUserRef(email).delete(); }catch(e){}
-  try{ await fsPendingRef(email).delete(); }catch(e){}
-  updateAdminStats(); adminShowTab('all');
 }
 
   // Done — admin access via sequence M-I-Z-A-N or URL ?adm=mzn2003
@@ -3822,6 +3885,8 @@ function buildDashboard(){
   $('me-city-l').textContent=t('me_city');$('me-ok').textContent=t('me_ok');
 
   goTo('sd');
+  // Track visitor (name + city only, no salary)
+  trackVisitor();
 }
 
 /* ══ TABS ══ */
