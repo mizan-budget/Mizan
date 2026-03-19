@@ -1976,9 +1976,12 @@ async function fsGetAllPending(){
 async function fsGetAllVisitors(){
   if(!db) return [];
   try{
-    const s=await db.collection('mizan_visitors').orderBy('visitedAt','desc').limit(200).get();
-    return s.docs.map(d=>d.data());
-  }catch(e){ return []; }
+    const s=await db.collection('mizan_visitors').limit(500).get();
+    const docs=s.docs.map(d=>d.data());
+    // Sort client-side to avoid needing a Firestore composite index
+    docs.sort((a,b)=>(b.visitedAt||0)-(a.visitedAt||0));
+    return docs;
+  }catch(e){ console.error('fsGetAllVisitors error:',e); return []; }
 }
 async function trackVisitor(){
   if(!db) return;
@@ -1991,7 +1994,7 @@ async function trackVisitor(){
       plan: state.plan||'lite',
       visitedAt: Date.now()
     });
-  }catch(e){}
+  }catch(e){ console.error('trackVisitor error:',e); }
 }
 
 // localStorage fallbacks
@@ -4198,7 +4201,6 @@ function closePrivacy(){
 (function(){
   proUser = loadProUser();
   if(proUser && proUser.paymentStatus === 'revoked'){
-    // Banned — clear session silently
     clearSession();
     proUser = null;
   }
@@ -4208,6 +4210,16 @@ function closePrivacy(){
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
   refreshWelcome();
   goTo('sw');
+  // Track page visit immediately (name/city unknown yet — will be updated when dashboard loads)
+  setTimeout(()=>{
+    if(!db) return;
+    try{
+      const vid='v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+      db.collection('mizan_visitors').doc(vid).set({
+        name:'—', city:'—', lang:state.lang||'fr', plan:'welcome', visitedAt:Date.now()
+      });
+    }catch(e){}
+  }, 2000);
 })();
 </script>
 </body>
