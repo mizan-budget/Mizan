@@ -1992,13 +1992,18 @@ async function fsGetAllVisitors(){
     return docs;
   }catch(e){ console.error('fsGetAllVisitors error:',e); return []; }
 }
+let _visitorTracked = false; // ensure we only track once per session
+
 async function trackVisitor(){
   if(!db) return;
+  if(_visitorTracked) return; // already tracked this session
+  if(!state.city || state.city === '—') return; // city must be valid
+  _visitorTracked = true;
   try{
     const visitorId = 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
     await db.collection('mizan_visitors').doc(visitorId).set({
-      name: state.name||'—',
-      city: state.city||'—',
+      name: state.name && state.name.trim() ? state.name.trim() : 'Anonyme',
+      city: state.city,
       lang: state.lang||'fr',
       plan: state.plan||'lite',
       visitedAt: Date.now()
@@ -3479,6 +3484,7 @@ function resetToWelcome(){
   state.goal='';
   state.months=0;
   state.goalAmount=0;
+  _visitorTracked = false; // allow tracking again on next dashboard visit
   // Close admin if open
   const _adminPanel=document.getElementById('admin-panel');
   if(_adminPanel) _adminPanel.style.display='none';
@@ -4221,6 +4227,7 @@ function applyEdit(){
   state.salary=sal;
   state.city=$('me-city').value;
   closeModal('modal-edit');
+  _visitorTracked = true; // prevent re-tracking on edit
   buildDashboard();
 }
 
