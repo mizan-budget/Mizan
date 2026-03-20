@@ -574,6 +574,12 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
     <span id="w-start-txt">Commencer</span>
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button>
+  <p id="w-login-hint" style="margin-top:14px;font-size:13px;color:var(--brown4);font-weight:300">
+    <span id="w-login-hint-txt">Déjà un compte ?</span>
+    <button id="w-login-btn" onclick="openModal('modal-login')" style="background:none;border:none;color:var(--gold-dk);cursor:pointer;font-size:13px;font-family:var(--fb);font-weight:600;padding:0 0 0 4px;text-decoration:underline;text-underline-offset:2px">
+      <span id="w-login-btn-txt">Se connecter</span>
+    </button>
+  </p>
   <div class="w-feats" id="w-feats">
     <div class="w-feats-title">✦ Tout ce que Mizan fait pour vous</div>
     <div class="w-feats-grid">
@@ -1171,7 +1177,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl"></span><br>
-          <a id="barid-mailto" href="mailto:mizan.budget@gmail.com" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
+          <a id="barid-mailto" href="mailto:mizan.budget@gmail.com?subject=Mizan%20Pro%20-%20Reçu%20Barid" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
           <span id="pay-receipt-subj-lbl"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1216,7 +1222,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl2"></span><br>
-          <a id="other-mailto" href="mailto:mizan.budget@gmail.com" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
+          <a id="other-mailto" href="mailto:mizan.budget@gmail.com?subject=Mizan%20Pro%20-%20Reçu%20Virement" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
           <span id="pay-receipt-subj-lbl2"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -2095,6 +2101,17 @@ let proUser = null; // {email, firstName, expiry (timestamp)}
 function getStorageKey(email){ return 'mizan_user_'+btoa(email.toLowerCase()).replace(/=/g,''); }
 function getExpenseKey(email,month){ return 'mizan_exp_'+btoa(email.toLowerCase()).replace(/=/g,'')+'_'+month; }
 
+function getLastKnownState(proUserObj){
+  // Priority 1: state saved on the Pro account itself
+  if(proUserObj && proUserObj.lastState && proUserObj.lastState.salary && proUserObj.lastState.goal && proUserObj.lastState.months)
+    return proUserObj.lastState;
+  // Priority 2: state saved generically (e.g. user configured as Lite before being approved Pro)
+  try{
+    const raw=localStorage.getItem('mizan_last_state');
+    if(raw){ const s=JSON.parse(raw); if(s&&s.salary&&s.goal&&s.months) return s; }
+  }catch(e){}
+  return null;
+}
 function loadProUser(){
   try{
     const raw=localStorage.getItem('mizan_session');
@@ -2117,9 +2134,11 @@ function doLogout(){
   // Reset scroll and modals
   document.body.style.overflow = '';
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
-  // Hide logout button
+  // Hide nav buttons
   const lb = document.getElementById('nav-logout');
   if(lb) lb.style.display='none';
+  const eb = document.getElementById('nav-edit-btn');
+  if(eb) eb.style.display='none';
   refreshWelcome();
   goTo('sw');
 }
@@ -2292,7 +2311,7 @@ async function forgotStep2(){
 }
 
 // Legacy function no longer used
-function doForgotPassword(){}
+// doForgotPassword: implemented below in showForgotPassword / forgotStep1 / forgotStep2
 
 /* ════════════════════ EMAILJS CONFIG ════════════════════ */
 /* ════════════ PAYMENT MODAL NAVIGATION ════════════ */
@@ -2409,40 +2428,7 @@ async function savePendingRequest(method, phone){
 }
 
 /* ════════════ MOT DE PASSE OUBLIÉ ════════════ */
-function showForgotPassword(){
-  $('auth-form-login').style.display='none';
-  $('auth-form-register').style.display='none';
-  $('auth-form-forgot').style.display='flex';
-  $('auth-form-forgot').style.flexDirection='column';
-  $('auth-err').classList.remove('show');
-}
-
-function doForgotPassword(){
-  const email=($('forgot-email').value||'').trim().toLowerCase();
-  const errEl=$('forgot-err');
-  const okEl=$('forgot-ok');
-  errEl.style.display='none';
-  okEl.style.display='none';
-  if(!email||!email.includes('@')){
-    errEl.textContent='Email invalide.';
-    errEl.style.display='block'; return;
-  }
-  const key=getStorageKey(email);
-  try{
-    const stored=JSON.parse(localStorage.getItem(key)||'null');
-    if(!stored||!stored.pass){
-      errEl.textContent='Aucun compte trouvé avec cet email.';
-      errEl.style.display='block'; return;
-    }
-    // Decode password and show it
-    const pass=atob(stored.pass);
-    okEl.innerHTML='✅ Mot de passe retrouvé !<br><br>Votre mot de passe est :<br><strong style="font-size:16px;letter-spacing:.05em;background:var(--beige2);padding:4px 10px;border-radius:6px;display:inline-block;margin-top:4px">'+pass+'</strong><br><br><span style="font-size:11px;color:var(--brown4)">Notez-le et gardez-le en sécurité.</span>';
-    okEl.style.display='block';
-  }catch(e){
-    errEl.textContent='Erreur. Réessayez.';
-    errEl.style.display='block';
-  }
-}
+// showForgotPassword & doForgotPassword: real implementations above (forgotStep1/2 flow)
 
 function doPayment(){} // legacy — not used anymore
 
@@ -2482,10 +2468,20 @@ function proceedAfterAuth(){
   state.plan='pro';
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
   document.body.style.overflow='';
+  // Restore Firestore expenses to localStorage so tracker history is intact
+  try{
+    if(proUser.expenses){
+      const prefix=getExpenseKey(proUser.email,'');
+      Object.entries(proUser.expenses).forEach(([mk,d])=>{
+        const k=prefix+mk;
+        if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(d));
+      });
+    }
+  }catch(e){}
 
   // Try to restore last saved state — skip onboarding if data exists
-  const savedState = proUser.lastState || null;
-  if(savedState && savedState.salary && savedState.goal && savedState.months){
+  const savedState = getLastKnownState(proUser);
+  if(savedState){
     // Restore all state fields
     state.salary    = savedState.salary;
     state.city      = savedState.city || state.city;
@@ -2624,8 +2620,8 @@ function choosePro(){
     document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
     document.body.style.overflow='';
     // Restore last state if available
-    const savedState = proUser && proUser.lastState;
-    if(savedState && savedState.salary && savedState.goal && savedState.months){
+    const savedState = getLastKnownState(proUser);
+    if(savedState){
       state.salary    = savedState.salary;
       state.city      = savedState.city || state.city;
       state.goal      = savedState.goal;
@@ -3334,6 +3330,70 @@ function closeModal(id){
   }
 }
 
+
+/* ════ MISSING FUNCTIONS — privacy + edit modal ════ */
+
+function openPrivacy(){
+  // Update title to current language
+  const titles={fr:'🔒 Politique de Confidentialité — Mizan',en:'🔒 Privacy Policy — Mizan',ar:'🔒 سياسة الخصوصية — ميزان'};
+  const el=document.getElementById('modal-privacy');
+  if(!el) return;
+  const ttlEl=el.querySelector('.modal-ttl');
+  if(ttlEl) ttlEl.textContent=titles[state.lang]||titles.fr;
+  openModal('modal-privacy');
+}
+
+function closePrivacy(){
+  closeModal('modal-privacy');
+}
+
+function openModalEdit(){
+  if(!document.getElementById('sd').classList.contains('active')) return;
+  const sal=state.salary;
+  document.getElementById('me-sal').value=sal;
+  populateCities('me-city');
+  document.getElementById('me-city').value=state.city;
+  // Refresh labels
+  const me_ttl=document.getElementById('me-ttl'); if(me_ttl) me_ttl.textContent=t('me_ttl');
+  const me_sal_l=document.getElementById('me-sal-l'); if(me_sal_l) me_sal_l.textContent=t('me_sal');
+  const me_city_l=document.getElementById('me-city-l'); if(me_city_l) me_city_l.textContent=t('me_city');
+  const me_ok=document.getElementById('me-ok'); if(me_ok) me_ok.textContent=t('me_ok');
+  openModal('modal-edit');
+}
+
+function closeModalEdit(){
+  closeModal('modal-edit');
+}
+
+function applyEdit(){
+  const newSal=parseInt(document.getElementById('me-sal').value);
+  const newCity=document.getElementById('me-city').value;
+  const errKey='err_sal';
+  if(!newSal||newSal<1500){
+    // Show inline error
+    let errEl=document.getElementById('me-sal-err');
+    if(!errEl){
+      errEl=document.createElement('div');
+      errEl.id='me-sal-err';
+      errEl.className='err';
+      errEl.style.cssText='color:var(--terra);font-size:12px;margin-top:4px;display:block';
+      document.getElementById('me-sal').after(errEl);
+    }
+    errEl.textContent=t(errKey);
+    errEl.style.display='block';
+    return;
+  }
+  const errEl=document.getElementById('me-sal-err');
+  if(errEl) errEl.style.display='none';
+
+  state.salary=newSal;
+  if(newCity) state.city=newCity;
+  // Rebuild dashboard with new values
+  closeModal('modal-edit');
+  // Small delay to let modal animate out cleanly
+  setTimeout(()=>{ buildDashboard(); },120);
+}
+
 /* ── PRO TABS ── */
 const TABS_LABELS_PRO = {
   fr:["💸 Budget","🎯 Mon Objectif","💡 Conseils","🏪 Où Acheter","📊 Mes Dépenses","📈 Investissements"],
@@ -3429,9 +3489,18 @@ function saveMonthExpenses(monthKey, sal){
   cats.forEach(k=>{ const el=$('exp-'+k); if(el) data[k]=parseFloat(el.value)||0; });
   const total=Object.values(data).reduce((a,b)=>a+b,0);
   data._total=total; data._sal=sal; data._saved=Date.now();
-  localStorage.setItem(getExpenseKey(proUser.email,monthKey), JSON.stringify(data));
+  const expKey = getExpenseKey(proUser.email, monthKey);
+  localStorage.setItem(expKey, JSON.stringify(data));
+  // Also persist tracker data to Firestore so it survives browser clears
+  try {
+    const storedUser = JSON.parse(localStorage.getItem(getStorageKey(proUser.email))||'{}');
+    if(!storedUser.expenses) storedUser.expenses = {};
+    storedUser.expenses[monthKey] = data;
+    localStorage.setItem(getStorageKey(proUser.email), JSON.stringify(storedUser));
+    fsSaveUser({...storedUser, email: proUser.email}).catch(()=>{});
+  } catch(e){}
   loadTrackerHistory();
-  // Flash success
+  // Flash success on ANY save button in tracker
   const btn=document.querySelector('.exp-save-btn');
   if(btn){ const orig=btn.textContent; btn.textContent='✅ Sauvegardé !'; btn.style.background='var(--olive)'; setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000); }
 }
@@ -3574,6 +3643,16 @@ function exportMonthReport(monthKey, sal){
 function loadTrackerHistory(){
   if(!proUser||!$('exp-history-list')) return;
   const prefix=getExpenseKey(proUser.email,'');
+  // First, restore any expenses stored in Firestore user object (survives localStorage clears)
+  try{
+    const stored=JSON.parse(localStorage.getItem(getStorageKey(proUser.email))||'{}');
+    if(stored.expenses){
+      Object.entries(stored.expenses).forEach(([mk,d])=>{
+        const k=prefix+mk;
+        if(!localStorage.getItem(k)) localStorage.setItem(k,JSON.stringify(d));
+      });
+    }
+  }catch(e){}
   const months=[];
   for(let i=0;i<localStorage.length;i++){
     const k=localStorage.key(i);
@@ -3790,6 +3869,9 @@ function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const _target=document.getElementById(id);
   if(_target) _target.classList.add('active');
+  // Hide nav-edit-btn unless on dashboard
+  const _editBtn=document.getElementById('nav-edit-btn');
+  if(_editBtn) _editBtn.style.display=(id==='sd'?'inline-flex':'none');
   window.scrollTo(0,0);
 }
 
@@ -3805,6 +3887,11 @@ function resetToWelcome(){
   // Close all modals and unlock scroll
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
   document.body.style.overflow='';
+  // Hide nav-edit-btn and logout when back on welcome
+  const _editBtn=document.getElementById('nav-edit-btn');
+  if(_editBtn) _editBtn.style.display='none';
+  const _logoutBtn=document.getElementById('nav-logout');
+  if(_logoutBtn) _logoutBtn.style.display='none';
   refreshWelcome();
   goTo('sw');
 }
@@ -3914,6 +4001,10 @@ function refreshWelcome(){
   const L=state.lang;
   $('w-tag').textContent=t('tagline');
   $('w-start-txt').textContent=t('start');
+  const loginHints={fr:{hint:'Déjà un compte ?',btn:'Se connecter'},en:{hint:'Already have an account?',btn:'Sign in'},ar:{hint:'لديك حساب بالفعل؟',btn:'تسجيل الدخول'}};
+  const lh=loginHints[L]||loginHints.fr;
+  $('w-login-hint-txt').textContent=lh.hint;
+  $('w-login-btn-txt').textContent=lh.btn;
 
   const PRO='PRO';
   const data={
@@ -4038,7 +4129,7 @@ function initStep2(){
   const goals=GOALS_DATA[state.lang];
   const isProU=isProActive()||(state.plan==='pro');
   const PRO_ONLY_GOALS=['car','travel','business','education','electronics','other'];
-  $('goals-grid').innerHTML=goals.map(g=>{
+  if($('goals-grid')) $('goals-grid').innerHTML=goals.map(g=>{
     const isLocked=!isProU && PRO_ONLY_GOALS.includes(g.id);
     if(isLocked){
       const lockLbl=state.lang==='ar'?'🔒 Pro فقط':state.lang==='en'?'🔒 Pro only':'🔒 Pro';
@@ -4154,13 +4245,21 @@ function selTime(v,el){
 
 /* ════════════════════ DASHBOARD ════════════════════ */
 function buildDashboard(){
-  if(state.months===0){
-    const cm=parseInt($('custom-months').value);
-    if(!cm||cm<1){$('time-err').classList.add('show');return;}
-    state.months=cm;
+  // Safety: if coming from boot (no onboarding), skip month/goal validation
+  const _fromBoot = !document.getElementById('sd').classList.contains('active');
+  if(!_fromBoot){
+    if(state.months===0){
+      const cm=parseInt($('custom-months').value);
+      if(!cm||cm<1){$('time-err').classList.add('show');return;}
+      state.months=cm;
+    }
+    state.goalAmount=parseFloat($('goal-amount').value)||state.goalAmount||20000;
+    $('time-err').classList.remove('show');
+  } else {
+    // Called from boot — use saved state values directly
+    if(!state.months || state.months < 1) state.months = 12;
+    if(!state.goalAmount || state.goalAmount < 1) state.goalAmount = 20000;
   }
-  state.goalAmount=parseFloat($('goal-amount').value)||20000;
-  $('time-err').classList.remove('show');
 
   const sal=state.salary;
   const city=CITIES[state.city];
@@ -4222,12 +4321,16 @@ function buildDashboard(){
   buildGoalTab(sal,savePm,monthsCalc,state.goalAmount);
   buildTipsTab();
   buildStoresTab(sal);
+  // Always save state snapshot — so Pro login can skip onboarding even if user set up as Lite first
+  const _snap={city:state.city,salary:sal,goal:state.goal,months:state.months,goalAmount:state.goalAmount,lang:state.lang,name:state.name};
+  try{ localStorage.setItem('mizan_last_state', JSON.stringify(_snap)); }catch(e){}
+
   if(isProActive()||(state.plan==='pro')){
     buildTrackerTab(sal);
     buildInvestTab(sal);
-    // Save state for Pro user
+    // Save state to Pro user account
     if(proUser){
-      proUser.lastState={city:state.city,salary:sal,goal:state.goal,months:state.months,goalAmount:state.goalAmount,lang:state.lang,name:state.name};
+      proUser.lastState=_snap;
       const key=getStorageKey(proUser.email);
       const stored=JSON.parse(localStorage.getItem(key)||'{}');
       stored.lastState=proUser.lastState;
@@ -4331,14 +4434,17 @@ function buildBudgetTab(sal){
 
   const data=cats.map(c=>Math.round(sal*c.pct));
   const colors=cats.map(c=>c.color);
-  if(donutChart){donutChart.destroy();donutChart=null;}
-  donutChart=new Chart($('donut-chart'),{
+  const _donutCanvas = $('donut-chart');
+  if(donutChart){ try{ donutChart.destroy(); }catch(e){} donutChart=null; }
+  if(!_donutCanvas){ console.warn('donut-chart canvas not found'); }
+  else { donutChart=new Chart(_donutCanvas,{
     type:'doughnut',
     data:{labels:cats.map(c=>c.lb),datasets:[{data,backgroundColor:colors,borderColor:'#FDFAF3',borderWidth:3,hoverOffset:7}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'70%',
       plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.parsed)+' DH ('+Math.round(ctx.parsed/sal*100)+'%)'},
       backgroundColor:'#3D2B1F',titleColor:'#FDFAF3',bodyColor:'#C8B898',borderColor:'rgba(201,151,58,.3)',borderWidth:1}}}
   });
+  }
   $('chart-leg').innerHTML=cats.map(c=>`
     <div class="cl-item">
       <div class="cl-l"><div class="cl-dot" style="background:${c.color}"></div><span>${c.lb}</span></div>
@@ -4555,59 +4661,63 @@ function renderStoreSection(sec){
 
   if(lockedItems.length>0){
     html+=`<div class="pro-blur-frame" onclick="openProLock()">
-      <div class="pro-blur-inner"><div class="stores-grid" style="padding:0">${lockedItems.map(card).join('')}</div></div>
+      <div class="pro-blur-inner">
+        ${lockedItems.map(card).join('')}
+      </div>
       <div class="pro-blur-overlay">
-        <div class="pro-blur-pill">${unlockLbl}</div>
-        <div class="pro-blur-label">${sublbl}</div>
+        <button class="btn-gold" style="margin-bottom:6px">${unlockLbl}</button>
+        <div style="font-size:12px;color:var(--brown3)">${sublbl}</div>
       </div>
     </div>`;
   }
+
   return html;
 }
 
-function openModalEdit(){
-  $('me-sal').value=state.salary;
-  populateCities('me-city');
-  $('me-city').value=state.city;
-  openModal('modal-edit');
-}
-
-function closeModalEdit(){
-  closeModal('modal-edit');
-}
-
-function applyEdit(){
-  const sal=parseInt($('me-sal').value);
-  if(!sal||sal<1500){return;}
-  state.salary=sal;
-  state.city=$('me-city').value;
-  closeModal('modal-edit');
-  _visitorTracked = true; // prevent re-tracking on edit
-  buildDashboard();
-}
-
-function openPrivacy(){
-  openModal('modal-privacy');
-}
-
-function closePrivacy(){
-  closeModal('modal-privacy');
-}
-
-/* ════════════════════ INIT ════════════════════ */
-(function(){
+/* ════════════════════ APP BOOT ════════════════════ */
+document.addEventListener('DOMContentLoaded', function(){
+  // 1. Load existing session
   proUser = loadProUser();
-  if(proUser && proUser.paymentStatus === 'revoked'){
-    clearSession();
-    proUser = null;
+
+  // 2. If Pro session active → go straight to dashboard
+  if(proUser && isProActive()){
+    if(proUser.firstName) state.name = proUser.firstName;
+    state.plan = 'pro';
+    const savedState = getLastKnownState(proUser);
+    if(savedState && savedState.salary && savedState.goal && savedState.months){
+      state.salary    = savedState.salary;
+      state.city      = savedState.city || state.city;
+      state.goal      = savedState.goal;
+      state.months    = savedState.months;
+      state.goalAmount= savedState.goalAmount || 20000;
+      state.lang      = savedState.lang || state.lang;
+      state.name      = savedState.name || state.name;
+      try { buildDashboard(); } catch(e){ console.error('Boot buildDashboard error:', e); goTo('sw'); }
+      return;
+    }
+    // Pro but no saved state → onboarding
+    initStep1(); goTo('s1');
+    return;
   }
-  if(proUser && isProActive()) state.plan='pro';
-  // Always unlock scroll and close modals on page load
-  document.body.style.overflow='';
-  document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
-  refreshWelcome();
+
+  // 3. Welcome screen — refresh dynamic text and modals
+  try { refreshWelcome(); } catch(e){ console.warn('refreshWelcome boot error:', e); }
+  try { refreshModals(); } catch(e){ console.warn('refreshModals boot error:', e); }
   goTo('sw');
-})();
+
+  // 4. Backdrop click-to-close for all modals (except payment which needs explicit action)
+  document.querySelectorAll('.modal-bg').forEach(function(bg){
+    bg.addEventListener('click', function(e){
+      if(e.target !== bg) return; // only fire when clicking the backdrop itself
+      const id = bg.id;
+      if(id === 'modal-payment') return; // payment requires deliberate close
+      if(id === 'modal-privacy') { closePrivacy(); return; }
+      if(id === 'modal-edit') { closeModalEdit(); return; }
+      closeModal(id);
+    });
+  });
+});
+
 </script>
 </body>
 </html>
