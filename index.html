@@ -1038,7 +1038,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         <div><div class="pay-plan-v">45 DH</div></div>
       </div>
       <div id="pay-choose-label" style="font-size:13px;font-weight:600;color:var(--brown);margin-bottom:12px;text-align:center"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
         <button onclick="selectPayMethod('bank')" id="btn-method-bank"
           style="background:#fff;border:2px solid #e8e0d0;border-radius:var(--r);padding:18px 10px;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.06)"
           onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 6px 20px rgba(201,151,58,.18)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e8e0d0';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)';this.style.transform='none'">
@@ -1060,6 +1060,17 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
           <span id="pay-paypal-speed" style="font-size:10px;color:#009cde;font-weight:600;font-family:var(--fb)"></span>
         </button>
       </div>
+      <!-- Giveaway option — full width -->
+      <button onclick="selectPayMethod('giveaway')" id="btn-method-giveaway"
+        style="width:100%;background:linear-gradient(135deg,#2d1b69 0%,#7c3aed 100%);border:2px solid rgba(139,92,246,.4);border-radius:var(--r);padding:16px 20px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(124,58,237,.2);margin-bottom:16px"
+        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(124,58,237,.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 12px rgba(124,58,237,.2)'">
+        <div style="font-size:28px;flex-shrink:0">🎁</div>
+        <div style="text-align:left;flex:1">
+          <div style="font-size:13px;font-weight:700;color:#fff;font-family:var(--fb)">Code Giveaway / Tombola</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;font-family:var(--fb)">Tu as gagné un accès gratuit ? Entre ton Instagram ici</div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:#fff;font-family:var(--fb);white-space:nowrap">🆓 GRATUIT</div>
+      </button>
     </div>
     <!-- ETAPE PayPal -->
     <div id="pay-step-paypal" style="display:none">
@@ -1080,6 +1091,29 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <div class="auth-err" id="pay-paypal-err"></div>
       <button class="bpri" style="width:100%;justify-content:center" id="pay-pp-confirm-btn" onclick="confirmPaypal()"></button>
       <div style="text-align:center;margin-top:10px"><button onclick="backToMethod()" id="pay-change-method-btn" style="background:none;border:none;color:var(--brown4);font-size:12px;cursor:pointer;font-family:var(--fb)"></button></div>
+    </div>
+    <!-- ETAPE Giveaway -->
+    <div id="pay-step-giveaway" style="display:none">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:44px;margin-bottom:8px">🎁</div>
+        <div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--brown);margin-bottom:6px">Accès Giveaway Gratuit</div>
+        <div style="font-size:13px;color:var(--brown3);line-height:1.65">Entre ton compte Instagram pour que je puisse vérifier que tu fais partie du giveaway.</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(124,58,237,.07) 0%,rgba(124,58,237,.03) 100%);border:1.5px solid rgba(124,58,237,.2);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;font-size:12px;color:#5b21b6;line-height:1.7">
+        📌 Assure-toi d'avoir participé au giveaway sur Instagram avant de soumettre.
+      </div>
+      <div class="fg">
+        <label class="lbl">Ton compte Instagram</label>
+        <div style="position:relative">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--brown4);pointer-events:none">@</span>
+          <input id="giveaway-instagram" class="inp" type="text" placeholder="ton_compte" maxlength="40" style="padding-left:32px">
+        </div>
+      </div>
+      <div class="auth-err" id="pay-giveaway-err" style="display:none;margin-bottom:10px"></div>
+      <button class="bpri" style="width:100%;justify-content:center;background:linear-gradient(135deg,#5b21b6,#7c3aed)" onclick="confirmGiveaway()">🎁 Soumettre ma demande gratuite →</button>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="backToMethod()" style="background:none;border:none;color:var(--brown4);font-size:12px;cursor:pointer;font-family:var(--fb)">← Changer de méthode</button>
+      </div>
     </div>
     <!-- ETAPE Choix banque -->
     <div id="pay-step-bank" style="display:none">
@@ -2241,7 +2275,7 @@ function doForgotPassword(){}
 /* ════════════════════ EMAILJS CONFIG ════════════════════ */
 /* ════════════ PAYMENT MODAL NAVIGATION ════════════ */
 function showPayStep(id){
-  const allSteps=['pay-step-method','pay-step-paypal','pay-step-bank',
+  const allSteps=['pay-step-method','pay-step-paypal','pay-step-giveaway','pay-step-bank',
    'pay-step-barid','pay-step-other','pay-processing','pay-success'];
   allSteps.forEach(s=>{
     const el=document.getElementById(s);
@@ -2249,6 +2283,36 @@ function showPayStep(id){
   });
   const target=document.getElementById(id);
   if(target) target.style.display='block';
+}
+
+async function confirmGiveaway(){
+  const insta=($('giveaway-instagram').value||'').trim().replace(/^@/,'');
+  const errEl=$('pay-giveaway-err');
+  errEl.style.display='none';
+  if(!insta||insta.length<2){
+    errEl.textContent='Merci d\'entrer ton compte Instagram.';
+    errEl.style.display='block'; return;
+  }
+  if(!proUser) return;
+  // Save as pending with giveaway method
+  const pendingObj={
+    email:proUser.email, firstName:proUser.firstName||'',
+    phone:'—', payment_method:'Giveaway Instagram: @'+insta,
+    instagram:'@'+insta, requestedAt:Date.now(), status:'pending'
+  };
+  const pendingKey='mizan_pending_'+btoa(proUser.email.toLowerCase()).replace(/=/g,'');
+  localStorage.setItem(pendingKey, JSON.stringify(pendingObj));
+  await fsSavePending(pendingObj);
+  const userKey=getStorageKey(proUser.email);
+  try{
+    const u=JSON.parse(localStorage.getItem(userKey)||'{}');
+    u.paymentStatus='pending'; u.pendingAt=Date.now(); u.instagram='@'+insta;
+    localStorage.setItem(userKey, JSON.stringify(u));
+    await fsSaveUser({...u, email:proUser.email, paymentStatus:'pending', pendingAt:Date.now(), instagram:'@'+insta});
+  }catch(e){}
+  showPayStep('pay-success');
+  $('pay-success-ttl').textContent='🎁 Demande Giveaway envoyée !';
+  $('pay-success-sub').innerHTML='Ton compte Instagram <strong>@'+insta+'</strong> a été soumis.<br><br>Je vais vérifier ta participation et activer ton accès Pro gratuitement sous <strong>24h</strong>.';
 }
 
 function openModalPayment(){
@@ -2267,6 +2331,7 @@ function openModalPayment(){
 
 function selectPayMethod(method){
   if(method==='paypal') showPayStep('pay-step-paypal');
+  else if(method==='giveaway') showPayStep('pay-step-giveaway');
   else showPayStep('pay-step-bank');
 }
 function selectBank(type){
@@ -2746,7 +2811,7 @@ async function adminShowTab(tab){
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px">
             <div style="font-weight:700;font-size:14px;color:var(--brown);margin-bottom:6px">👤 ${r.firstName||'—'} · <span style="color:var(--gold-dk)">${r.email}</span></div>
-            <div style="font-size:12px;color:var(--brown3);line-height:1.9">📞 ${r.phone||'—'}<br>💳 Méthode : <strong>${r.payment_method||'—'}</strong><br>📅 ${date}</div>
+            <div style="font-size:12px;color:var(--brown3);line-height:1.9">📞 ${r.phone||'—'}<br>💳 Méthode : <strong>${r.payment_method||'—'}</strong>${r.instagram?`<br>📸 Instagram : <strong style="color:#7c3aed">${r.instagram}</strong>`:''}<br>📅 ${date}</div>
             <div style="margin-top:8px;padding:6px 10px;background:rgba(196,98,58,.07);border-radius:6px;font-size:11px;color:var(--terra)">⚠️ Vérifiez le reçu sur <strong>mizan.budget@gmail.com</strong> avant d'approuver</div>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
