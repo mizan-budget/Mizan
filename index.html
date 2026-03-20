@@ -3339,6 +3339,7 @@ function buildTrackerHTML(sal){
     <div class="exp-summary-row"><span class="exp-sum-l">💹 Solde estimé</span><span class="exp-sum-v" id="exp-balance-disp">— DH</span></div>
   </div>
   <button class="exp-save-btn" onclick="saveMonthExpenses('${monthKey}',${sal})">💾 Sauvegarder ce mois</button>
+  <button onclick="exportMonthReport('${monthKey}',${sal})" style="width:100%;padding:12px;background:transparent;border:2px solid var(--gold);color:var(--gold-dk);border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;margin-top:8px" onmouseover="this.style.background='rgba(201,151,58,.08)'" onmouseout="this.style.background='transparent'">📄 Exporter mon rapport mensuel</button>
   <div class="exp-history" id="exp-history-list"></div>`;
 }
 
@@ -3381,6 +3382,141 @@ function saveMonthExpenses(monthKey, sal){
   // Flash success
   const btn=document.querySelector('.exp-save-btn');
   if(btn){ const orig=btn.textContent; btn.textContent='✅ Sauvegardé !'; btn.style.background='var(--olive)'; setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000); }
+}
+
+function exportMonthReport(monthKey, sal){
+  const cats=[
+    {k:'loyer',  label:'Loyer / Logement',  icon:'🏠', pct:0.25, advice:{
+      ok:'Votre loyer est dans les limites recommandées. Continuez ainsi.',
+      over:'Votre loyer dépasse 25% de votre salaire. Envisagez un logement moins cher, de chercher un colocataire, ou de négocier votre loyer lors du renouvellement.'
+    }},
+    {k:'food',   label:'Alimentation',       icon:'🛒', pct:0.18, advice:{
+      ok:'Vos dépenses alimentaires sont bien maîtrisées.',
+      over:'Vous dépassez le budget alimentaire recommandé (18%). Essayez de cuisiner à la maison 4-5 jours/semaine, de faire vos courses à Bim ou Atacadão, et de planifier vos repas à l\'avance.'
+    }},
+    {k:'trans',  label:'Transport',           icon:'🚌', pct:0.09, advice:{
+      ok:'Vos frais de transport sont raisonnables.',
+      over:'Transport au-dessus de 9%. Pensez au covoiturage avec des collègues, aux transports en commun, ou à un vélo pour les courts trajets.'
+    }},
+    {k:'util',   label:'Eau · Élec · Net',    icon:'💡', pct:0.07, advice:{
+      ok:'Vos factures eau/électricité sont bien contrôlées.',
+      over:'Factures élevées (dépassement du budget 7%). Débranchez les appareils en veille, utilisez des ampoules LED, douchez-vous en moins de 5 min, et évitez la climatisation excessive.'
+    }},
+    {k:'health', label:'Santé & Hygiène',     icon:'🏥', pct:0.05, advice:{
+      ok:'Dépenses santé dans la norme.',
+      over:'Dépenses santé élevées. Vérifiez si vous pouvez bénéficier de la CNSS ou d\'une mutuelle, et consultez les médecins du secteur public pour réduire les coûts.'
+    }},
+    {k:'fun',    label:'Loisirs & Imprévus',  icon:'🎯', pct:0.06, advice:{
+      ok:'Loisirs bien équilibrés.',
+      over:'Loisirs au-dessus du budget (6%). Cherchez des activités gratuites ou peu coûteuses : parcs, bibliothèques, sorties en famille. Limitez les restaurants et cafés.'
+    }},
+    {k:'other',  label:'Autres dépenses',     icon:'📦', pct:0.04, advice:{
+      ok:'Autres dépenses maîtrisées.',
+      over:'Dépenses "Autres" élevées. Analysez chaque achat non essentiel et appliquez la règle des 48h avant tout achat impulsif.'
+    }},
+  ];
+
+  // Read current inputs
+  const data={};
+  cats.forEach(c=>{ const el=$('exp-'+c.k); data[c.k]=parseFloat(el?.value)||0; });
+  const total=Object.values(data).reduce((a,b)=>a+b,0);
+  const balance=sal-total;
+  const savingRate=sal>0?Math.round((balance/sal)*100):0;
+
+  // Build advice lines
+  const now=new Date();
+  const monthName=now.toLocaleDateString('fr-MA',{month:'long',year:'numeric'});
+  let overBudget=[], okBudget=[];
+  cats.forEach(c=>{
+    const budget=Math.round(sal*c.pct);
+    const spent=data[c.k];
+    const pctSpent=sal>0?Math.round((spent/sal)*100):0;
+    const over=spent>budget*1.05; // 5% tolerance
+    if(over) overBudget.push({...c, spent, budget, pctSpent});
+    else okBudget.push({...c, spent, budget, pctSpent});
+  });
+
+  // Overall status
+  let overallMsg='', overallColor='';
+  if(savingRate>=25){ overallMsg='🏆 Excellent ! Vous êtes en avance sur votre objectif d\'épargne.'; overallColor='#7A9E5F'; }
+  else if(savingRate>=15){ overallMsg='✅ Bonne trajectoire. Vous épargnez bien ce mois-ci.'; overallColor='#C9973A'; }
+  else if(savingRate>=0){ overallMsg='⚠️ Vous êtes en dessous de l\'objectif d\'épargne recommandé (30%). Des ajustements sont nécessaires.'; overallColor='#C4623A'; }
+  else { overallMsg='🚨 Attention : vos dépenses dépassent votre salaire ce mois-ci. Réduction urgente requise.'; overallColor='#C4623A'; }
+
+  const html=`<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Rapport Mizan — ${monthName}</title>
+<style>
+  body{font-family:'Segoe UI',sans-serif;max-width:720px;margin:0 auto;padding:32px 24px;color:#3D2B1F;background:#FDFAF3}
+  h1{font-size:26px;color:#3D2B1F;margin-bottom:4px}
+  .sub{font-size:13px;color:#9A7060;margin-bottom:28px}
+  .status{padding:14px 18px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:24px;border:1.5px solid}
+  .section-title{font-size:15px;font-weight:700;color:#3D2B1F;margin:22px 0 10px;border-bottom:2px solid #EDE4CF;padding-bottom:6px}
+  .cat-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid #F5EFE0;gap:12px}
+  .cat-left{flex:1}
+  .cat-name{font-size:14px;font-weight:600}
+  .cat-advice{font-size:12px;color:#7A5544;margin-top:4px;line-height:1.55}
+  .cat-nums{text-align:right;flex-shrink:0;font-size:12px}
+  .over{color:#C4623A;font-weight:700}
+  .ok{color:#7A9E5F;font-weight:600}
+  .summary{background:#F5EFE0;border-radius:10px;padding:18px;margin-top:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .sum-item{text-align:center}
+  .sum-v{font-size:22px;font-weight:700;color:#3D2B1F}
+  .sum-l{font-size:10px;color:#9A7060;text-transform:uppercase;margin-top:3px}
+  .footer{margin-top:32px;font-size:11px;color:#C8B898;text-align:center;border-top:1px solid #EDE4CF;padding-top:16px}
+  @media print{body{padding:16px}}
+</style>
+</head>
+<body>
+  <h1>📊 Rapport Mensuel Mizan</h1>
+  <div class="sub">${monthName} · ${state.name||'Utilisateur'} · ${state.city}</div>
+
+  <div class="status" style="background:${overallColor}15;border-color:${overallColor}40;color:${overallColor}">${overallMsg}</div>
+
+  <div class="section-title">Résumé financier</div>
+  <div class="summary">
+    <div class="sum-item"><div class="sum-v">${Math.round(sal).toLocaleString('fr-MA')} DH</div><div class="sum-l">Salaire</div></div>
+    <div class="sum-item"><div class="sum-v" style="color:#C4623A">${Math.round(total).toLocaleString('fr-MA')} DH</div><div class="sum-l">Dépenses</div></div>
+    <div class="sum-item"><div class="sum-v" style="color:${balance>=0?'#7A9E5F':'#C4623A'}">${Math.round(balance).toLocaleString('fr-MA')} DH</div><div class="sum-l">${balance>=0?'Épargne':'Déficit'} (${savingRate}%)</div></div>
+  </div>
+
+  ${overBudget.length>0?`
+  <div class="section-title">⚠️ Catégories à réduire</div>
+  ${overBudget.map(c=>`
+  <div class="cat-row">
+    <div class="cat-left">
+      <div class="cat-name">${c.icon} ${c.label}</div>
+      <div class="cat-advice">${c.advice.over}</div>
+    </div>
+    <div class="cat-nums">
+      <div class="over">${Math.round(c.spent).toLocaleString('fr-MA')} DH (${c.pctSpent}%)</div>
+      <div style="color:#9A7060">Budget: ${Math.round(c.budget).toLocaleString('fr-MA')} DH (${Math.round(c.pct*100)}%)</div>
+    </div>
+  </div>`).join('')}`:''}
+
+  <div class="section-title">✅ Points positifs ce mois</div>
+  ${okBudget.map(c=>`
+  <div class="cat-row">
+    <div class="cat-left">
+      <div class="cat-name">${c.icon} ${c.label}</div>
+      <div class="cat-advice">${c.advice.ok}</div>
+    </div>
+    <div class="cat-nums">
+      <div class="ok">${Math.round(c.spent).toLocaleString('fr-MA')} DH (${c.pctSpent}%)</div>
+      <div style="color:#9A7060">Budget: ${Math.round(c.budget).toLocaleString('fr-MA')} DH</div>
+    </div>
+  </div>`).join('')}
+
+  <div class="footer">Généré par Mizan · mizan-budget.web.app · ${new Date().toLocaleDateString('fr-MA')}</div>
+</body></html>`;
+
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`Mizan_Rapport_${monthKey}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function loadTrackerHistory(){
@@ -3429,6 +3565,13 @@ function buildInvestTab(sal){
 function buildInvestHTML(sal){
   const monthSave=Math.round(sal*0.22);
   return `<div class="sec-h" style="margin-bottom:4px">📈 Investissements Disponibles au Maroc</div>
+  <div style="background:linear-gradient(135deg,rgba(107,143,168,.12),rgba(107,143,168,.06));border:1.5px solid rgba(107,143,168,.3);border-radius:var(--r);padding:13px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px">
+    <span style="font-size:20px;flex-shrink:0">🔄</span>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:3px">Ces informations se renouvellent chaque mois</div>
+      <div style="font-size:12px;color:var(--brown3);line-height:1.6">Revenez chaque mois pour voir les opportunités d'investissement mises à jour selon l'évolution du marché marocain. Les taux, les offres et les recommandations sont révisés régulièrement.</div>
+    </div>
+  </div>
   <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(122,158,95,.1);border:1px solid rgba(122,158,95,.25);color:var(--olive);padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;margin-bottom:16px">
     ✦ Toutes les options ci-dessous sont conformes à la charia islamique — aucun ribā, aucun gharar
   </div>
@@ -4105,14 +4248,46 @@ function buildGoalTab(sal,savePm,monthsCalc,goalAmt){
     <div class="sk"><div class="sk-l">${t('sk3')}</div><div class="sk-v">${monthsCalc}</div><div class="sk-s">${t('months_u')} ${t('sk3s')}</div></div>
   `;
   const goalDef=GOALS_DATA[state.lang].find(g=>g.id===state.goal)||GOALS_DATA[state.lang][0];
-  const progress=Math.min(100,Math.round((1/monthsCalc)*100));
+
+  // Dynamic progress: sum real monthly savings from tracker history
+  let totalRealSaved = 0;
+  let monthsTracked = 0;
+  if(proUser && proUser.email){
+    const prefix = getExpenseKey(proUser.email,'');
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(prefix)){
+        try{
+          const d=JSON.parse(localStorage.getItem(k));
+          if(d && d._sal && d._total !== undefined){
+            totalRealSaved += Math.max(0, d._sal - d._total);
+            monthsTracked++;
+          }
+        }catch(e){}
+      }
+    }
+  }
+  const progress = goalAmt > 0
+    ? Math.min(100, Math.round((totalRealSaved / goalAmt) * 100))
+    : Math.min(100, Math.round((1 / monthsCalc) * 100));
+
+  const progressLabel = monthsTracked > 0
+    ? `${fmt(totalRealSaved)} DH épargné réellement sur ${fmt(goalAmt)} DH`
+    : `Commencez à saisir vos dépenses pour voir votre vrai progrès`;
+
   const yrs=Math.floor(monthsCalc/12);
   const mos=monthsCalc%12;
   $('goal-card').innerHTML=`
     <div class="gc-tag">${t('goal_tag')} · ${goalDef.ic} ${goalDef.lb}</div>
     <div class="gc-ttl">${fmt(goalAmt)} DH</div>
     <div class="gc-sub">${fmt(savePm)} DH × ${monthsCalc} ${t('months_u')}</div>
-    <div class="prog-bg"><div class="prog-fill" style="width:${progress}%"></div></div>
+    <div style="margin-bottom:6px">
+      <div class="prog-bg"><div class="prog-fill" style="width:${progress}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <span style="font-size:10px;color:rgba(253,250,243,.5)">${progressLabel}</span>
+        <span style="font-size:12px;font-weight:700;color:var(--gold-lt)">${progress}%</span>
+      </div>
+    </div>
     <div class="gc-stats">
       <div class="gcs"><div class="gcs-v">${fmt(savePm)}</div><div class="gcs-l">DH/${t('month_u')}</div></div>
       <div class="gcs"><div class="gcs-v">${monthsCalc}</div><div class="gcs-l">${t('months_u')}</div></div>
