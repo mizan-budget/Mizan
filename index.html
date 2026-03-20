@@ -1317,6 +1317,28 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
   </div>
 </div>
 
+<!-- GOAL COMPLETED MODAL -->
+<div class="modal-bg" id="modal-goal-done">
+  <div class="modal" style="max-width:440px;text-align:center">
+    <div style="font-size:56px;margin-bottom:12px;animation:pulse 1.5s ease-in-out infinite">🏆</div>
+    <div style="font-family:var(--fd);font-size:24px;font-weight:700;color:var(--brown);margin-bottom:8px" id="goal-done-ttl">Félicitations !</div>
+    <p style="font-size:13px;color:var(--brown3);margin-bottom:20px;line-height:1.8" id="goal-done-msg"></p>
+    <div style="background:linear-gradient(135deg,var(--brown2),var(--brown));border-radius:var(--r);padding:16px;margin-bottom:20px;text-align:left">
+      <div style="font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">🎯 Nouveau départ</div>
+      <div class="fg" style="margin-bottom:12px">
+        <label class="lbl" style="color:rgba(253,250,243,.55)">Nouveau salaire (DH) — si changé</label>
+        <input id="new-salary-inp" class="inp" type="number" min="1500" style="background:rgba(255,255,255,.1);border-color:rgba(201,151,58,.4);color:var(--cream)">
+      </div>
+      <div class="fg">
+        <label class="lbl" style="color:rgba(253,250,243,.55)">Nouveau objectif</label>
+        <select id="new-goal-sel" class="sel" style="background:rgba(255,255,255,.1);border-color:rgba(201,151,58,.4);color:var(--cream)"></select>
+      </div>
+    </div>
+    <button class="bpri" style="width:100%;justify-content:center" onclick="startNewGoal()">🚀 Lancer mon nouvel objectif →</button>
+    <button style="width:100%;padding:11px;background:transparent;border:none;font-size:12px;color:var(--brown4);cursor:pointer;font-family:var(--fb);margin-top:8px" onclick="closeModal('modal-goal-done')">Continuer avec l'objectif actuel</button>
+  </div>
+</div>
+
 <!-- PRO LOCK UPSELL MODAL -->
 <div class="modal-bg" id="modal-pro-lock">
   <div class="modal" style="max-width:400px;text-align:center">
@@ -2460,7 +2482,24 @@ function proceedAfterAuth(){
   state.plan='pro';
   document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
   document.body.style.overflow='';
-  initStep1();goTo('s1');
+
+  // Try to restore last saved state — skip onboarding if data exists
+  const savedState = proUser.lastState || null;
+  if(savedState && savedState.salary && savedState.goal && savedState.months){
+    // Restore all state fields
+    state.salary    = savedState.salary;
+    state.city      = savedState.city || state.city;
+    state.goal      = savedState.goal;
+    state.months    = savedState.months;
+    state.goalAmount= savedState.goalAmount || 20000;
+    state.lang      = savedState.lang || state.lang;
+    state.name      = savedState.name || state.name;
+    // Go straight to dashboard — no onboarding needed
+    buildDashboard();
+  } else {
+    // First time — go through onboarding
+    initStep1(); goTo('s1');
+  }
 }
 
 /* ── PRICING SCREEN ── */
@@ -2584,7 +2623,20 @@ function choosePro(){
     if(proUser&&proUser.firstName) state.name=proUser.firstName;
     document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));
     document.body.style.overflow='';
-    initStep1();goTo('s1');
+    // Restore last state if available
+    const savedState = proUser && proUser.lastState;
+    if(savedState && savedState.salary && savedState.goal && savedState.months){
+      state.salary    = savedState.salary;
+      state.city      = savedState.city || state.city;
+      state.goal      = savedState.goal;
+      state.months    = savedState.months;
+      state.goalAmount= savedState.goalAmount || 20000;
+      state.lang      = savedState.lang || state.lang;
+      state.name      = savedState.name || state.name;
+      buildDashboard();
+    } else {
+      initStep1(); goTo('s1');
+    }
     return;
   }
   if(proUser && proUser.paymentStatus==='pending'){
@@ -3673,6 +3725,60 @@ function calcNW(){
   }
 }
 
+function showGoalCompletionModal(goalAmt, monthsTracked, totalSaved){
+  const L = state.lang;
+  const name = state.name ? ', '+state.name : '';
+  const msgs = {
+    fr: {
+      ttl: `Bravo${name} ! Objectif atteint 🎉`,
+      msg: `Vous avez épargné <strong>${fmt(totalSaved)} DH</strong> en <strong>${monthsTracked} mois</strong> — soit <strong>${fmt(goalAmt)} DH</strong> pour votre objectif !<br><br>` +
+           `✦ Vous avez prouvé que la discipline financière paie.<br>` +
+           `✦ Chaque mois où vous avez résisté aux dépenses inutiles vous a rapproché de ce résultat.<br>` +
+           `✦ Vous faites partie des rares personnes qui atteignent vraiment leurs objectifs financiers.<br><br>` +
+           `Il est temps de vous fixer un nouveau défi ! 🚀`
+    },
+    en: {
+      ttl: `Congratulations${name}! Goal reached 🎉`,
+      msg: `You saved <strong>${fmt(totalSaved)} DH</strong> in <strong>${monthsTracked} months</strong> — reaching your <strong>${fmt(goalAmt)} DH</strong> goal!<br><br>` +
+           `✦ You proved that financial discipline pays off.<br>` +
+           `✦ Every month you resisted unnecessary spending brought you closer.<br>` +
+           `✦ You're among the rare people who truly reach their financial goals.<br><br>` +
+           `Time to set a new challenge! 🚀`
+    },
+    ar: {
+      ttl: `مبروك${name}! لقد حققت هدفك 🎉`,
+      msg: `لقد ادّخرت <strong>${fmt(totalSaved)} درهم</strong> في <strong>${monthsTracked} شهراً</strong> — محققاً هدف <strong>${fmt(goalAmt)} درهم</strong>!<br><br>` +
+           `✦ أثبتت أن الانضباط المالي يؤتي ثماره.<br>` +
+           `✦ كل شهر قاومت فيه الإنفاق غير الضروري أقربك من هذه النتيجة.<br>` +
+           `✦ أنت من بين القلائل الذين يحققون أهدافهم المالية فعلاً.<br><br>` +
+           `حان وقت تحديد هدف جديد! 🚀`
+    }
+  };
+  const m = msgs[L] || msgs.fr;
+  $('goal-done-ttl').textContent = m.ttl;
+  $('goal-done-msg').innerHTML = m.msg;
+  $('new-salary-inp').value = state.salary;
+  // Populate goal selector
+  const goals = GOALS_DATA[L] || GOALS_DATA.fr;
+  $('new-goal-sel').innerHTML = goals.map(g=>`<option value="${g.id}">${g.ic} ${g.lb}</option>`).join('');
+  $('new-goal-sel').value = state.goal;
+  openModal('modal-goal-done');
+}
+
+function startNewGoal(){
+  const newSal = parseInt($('new-salary-inp').value);
+  const newGoal = $('new-goal-sel').value;
+  if(newSal && newSal >= 1500) state.salary = newSal;
+  if(newGoal) state.goal = newGoal;
+  // Reset months so user picks a new timeline
+  state.months = 0;
+  state.goalAmount = 0;
+  // Clear goal done flag for new goal
+  sessionStorage.removeItem('goal_done_shown_'+state.goal);
+  closeModal('modal-goal-done');
+  initStep3(); goTo('s3');
+}
+
 /* ════════════════════ UTILS ════════════════════ */
 function fmt(n){ return Math.round(n).toLocaleString('fr-MA'); }
 function t(k){ return TRANSLATIONS[state.lang][k]||k; }
@@ -4306,6 +4412,15 @@ function buildGoalTab(sal,savePm,monthsCalc,goalAmt){
   });
   ph+='</div>';
   $('phaselist-wrap').innerHTML=ph;
+
+  // Check goal completion for Pro users
+  if((isProActive()||(state.plan==='pro')) && progress >= 100 && monthsTracked > 0){
+    const alreadyShown = sessionStorage.getItem('goal_done_shown_'+state.goal);
+    if(!alreadyShown){
+      sessionStorage.setItem('goal_done_shown_'+state.goal,'1');
+      setTimeout(()=>showGoalCompletionModal(goalAmt, monthsTracked, totalRealSaved), 800);
+    }
+  }
 }
 
 /* ══ TIPS ══ */
