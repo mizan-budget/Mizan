@@ -519,6 +519,32 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 .exp-hist-badge.spent{background:rgba(196,98,58,.1);color:var(--terra)}
 .exp-empty{text-align:center;padding:24px;color:var(--brown4);font-size:13px}
 
+/* Daily expense table */
+.daily-exp-wrap{margin-top:24px}
+.daily-exp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.daily-budget-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.3);color:var(--gold-dk);font-size:12px;font-weight:700;padding:6px 14px;border-radius:100px}
+.daily-table{width:100%;border-collapse:collapse;font-size:13px}
+.daily-table thead th{padding:9px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--brown4);text-transform:uppercase;letter-spacing:.07em;border-bottom:2px solid var(--beige3);background:var(--cream)}
+.daily-table thead th:first-child{border-radius:var(--rsm) 0 0 0}
+.daily-table thead th:last-child{border-radius:0 var(--rsm) 0 0;text-align:center}
+.daily-table tbody tr{border-bottom:1px solid var(--beige3);transition:background .15s}
+.daily-table tbody tr:hover{background:rgba(201,151,58,.04)}
+.daily-table tbody tr.today-row{background:rgba(201,151,58,.08);font-weight:600}
+.daily-table tbody td{padding:7px 10px;vertical-align:middle}
+.daily-day-cell{font-weight:600;color:var(--brown2);white-space:nowrap}
+.daily-inp{width:110px;padding:6px 10px 6px 28px;background:var(--beige);border:1.5px solid var(--beige3);border-radius:var(--rsm);font-size:13px;color:var(--brown);font-family:var(--fb);outline:none;transition:all .2s}
+.daily-inp:focus{border-color:var(--gold);background:var(--cream)}
+.daily-inp-wrap{position:relative;display:inline-block}
+.daily-inp-prefix{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--brown4);pointer-events:none}
+.daily-status{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap}
+.ds-ok{background:rgba(122,158,95,.12);color:var(--olive)}
+.ds-over{background:rgba(196,98,58,.12);color:var(--terra)}
+.ds-empty{background:var(--beige2);color:var(--brown4)}
+.ds-today{background:rgba(201,151,58,.15);color:var(--gold-dk)}
+.daily-save-btn{width:100%;padding:11px;background:var(--brown);color:var(--gold-lt);border:none;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;margin-top:12px}
+.daily-save-btn:hover{background:var(--brown2);transform:translateY(-1px)}
+.daily-totals-row td{font-weight:700;color:var(--brown);background:var(--beige2);padding:10px 10px}
+
 /* Investment guide */
 .inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
 @media(max-width:560px){.inv-grid{grid-template-columns:1fr}}
@@ -850,7 +876,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="copyright-ic" style="cursor:default" title="Mizan"></svg>
         <p id="footer-txt" style="margin:0">Mizan © 2026 · Votre assistant budget au Maroc · Données indicatives</p>
         <span>·</span>
-        <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);text-decoration:none">mizan.budget@gmail.com</a>
+        <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);text-decoration:none"><span class="__cf_email__" data-cfemail="d5b8bcafb4bbfbb7a0b1b2b0a195b2b8b4bcb9fbb6bab8">[email&#160;protected]</span></a>
         <span>·</span>
         <button onclick="openPrivacy()" style="background:none;border:none;color:var(--gold-dk);cursor:pointer;font-size:12px;font-family:var(--fb);text-decoration:underline;padding:0">🔒 Confidentialité</button>
       </div>
@@ -890,16 +916,16 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       Mizan n'utilise aucun cookie de tracking, aucun pixel publicitaire, et aucun outil d'analyse comportementale de tiers.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">7. Droit à l'effacement</div>
-      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong> pour toute demande.
+      Vous pouvez supprimer toutes vos données à tout moment en vidant le localStorage de votre navigateur (Paramètres → Confidentialité → Effacer les données). Vous pouvez également contacter <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="305d594a515e1e52455457554470575d51595c1e535f5d">[email&#160;protected]</span></a></strong> pour toute demande.
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">8. Contact</div>
-      Pour toute question relative à la confidentialité de vos données : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
+      Pour toute question relative à la confidentialité de vos données : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="a0cdc9dac1ce8ec2d5c4c7c5d4e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></a>
 
       <div style="font-weight:700;color:var(--brown);margin-bottom:6px;margin-top:14px">9. Responsabilité</div>
       Les données budgétaires (salaire, dépenses, objectifs) sont indicatives et à titre informatif uniquement. Mizan décline toute responsabilité pour les décisions financières prises sur la base des données affichées.
 
       <div style="margin-top:16px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4)">
-        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
+        Dernière mise à jour : Mars 2026 · Mizan © 2026 · <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="d9b4b0a3b8b7f7bbacbdbebcad99beb4b8b0b5f7bab6b4">[email&#160;protected]</span></a>
       </div>
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-top:12px" onclick="closePrivacy()">J'ai lu et j'accepte ✓</button>
@@ -1021,7 +1047,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Admin contact fallback -->
       <div style="margin-top:14px;padding:10px 12px;background:var(--beige2);border-radius:8px;font-size:11px;color:var(--brown4);text-align:center;line-height:1.7">
         Vous avez oublié votre réponse secrète ?<br>
-        Contactez l'admin : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a>
+        Contactez l'admin : <a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="2b4642514a4505495e4f4c4e5f6b4c464a424705484446">[email&#160;protected]</span></a>
       </div>
       <div style="text-align:center;margin-top:10px">
         <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--brown4);cursor:pointer;font-size:12px;font-family:var(--fb)">← Retour à la connexion</button>
@@ -1177,7 +1203,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl"></span><br>
-          <a id="barid-mailto" href="mailto:mizan.budget@gmail.com?subject=Mizan%20Pro%20-%20Reçu%20Barid" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
+          <a id="barid-mailto" href="/cdn-cgi/l/email-protection#781511021916561a0d1c1f1d0c381f15191114561b1715" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="076a6e7d66692965726360627347606a666e6b2964686a">[email&#160;protected]</span></a><br>
           <span id="pay-receipt-subj-lbl"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1222,7 +1248,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(196,98,58,.07);border-radius:8px;font-size:11px;color:var(--terra);line-height:1.7">
           <span id="pay-receipt-lbl2"></span><br>
-          <a id="other-mailto" href="mailto:mizan.budget@gmail.com?subject=Mizan%20Pro%20-%20Reçu%20Virement" style="color:var(--terra);font-weight:700">📧 mizan.budget@gmail.com</a><br>
+          <a id="other-mailto" href="/cdn-cgi/l/email-protection#f39e9a89929ddd918697949687b3949e929a9fdd909c9e" style="color:var(--terra);font-weight:700">📧 <span class="__cf_email__" data-cfemail="97fafeedf6f9b9f5e2f3f0f2e3d7f0faf6fefbb9f4f8fa">[email&#160;protected]</span></a><br>
           <span id="pay-receipt-subj-lbl2"></span> <strong>Mizan Pro - <span class="pay-email-ref"></span></strong>
         </div>
       </div>
@@ -1248,19 +1274,19 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 <div class="modal-bg" id="modal-pending">
   <div class="modal" style="max-width:420px;text-align:center">
     <div style="font-size:48px;margin-bottom:12px">⏳</div>
-    <div class="modal-ttl" style="justify-content:center;margin-bottom:8px">Accès en cours de validation</div>
-    <p style="font-size:13px;color:var(--brown3);margin-bottom:20px;line-height:1.7">
+    <div class="modal-ttl" id="pending-modal-ttl" style="justify-content:center;margin-bottom:8px">Accès en cours de validation</div>
+    <p id="pending-modal-sub" style="font-size:13px;color:var(--brown3);margin-bottom:20px;line-height:1.7">
       Votre virement est en cours de vérification.<br>
       Votre accès Pro sera activé sous <strong>24h ouvrées</strong> après réception de votre reçu.
     </p>
-    <div style="background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.2);border-radius:var(--r);padding:12px;margin-bottom:16px;font-size:12px;color:var(--brown3);line-height:1.7">
-      📧 Envoyez votre reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong><br>
-      Objet : <strong>Reçu Mizan Pro</strong> + votre email
+    <div id="pending-modal-receipt" style="background:rgba(201,151,58,.07);border:1px solid rgba(201,151,58,.2);border-radius:var(--r);padding:12px;margin-bottom:16px;font-size:12px;color:var(--brown3);line-height:1.7">
+      📧 Envoyez votre reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="107d796a717e3e72657477756450777d71797c3e737f7d">[email&#160;protected]</span></a></strong><br>
+      <span id="pending-modal-subject-lbl">Objet :</span> <strong>Reçu Mizan Pro</strong> + votre email
     </div>
-    <button class="bpri" style="width:100%;justify-content:center;margin-bottom:10px" onclick="closeModal('modal-pending');chooseLite()">
+    <button id="pending-modal-lite-btn" class="bpri" style="width:100%;justify-content:center;margin-bottom:10px" onclick="closeModal('modal-pending');chooseLite()">
       Continuer en Lite pour l'instant
     </button>
-    <button style="width:100%;padding:11px;background:transparent;border:1px solid var(--line);border-radius:100px;font-size:12px;color:var(--brown4);cursor:pointer;font-family:var(--fb)"
+    <button id="pending-modal-retry-btn" style="width:100%;padding:11px;background:transparent;border:1px solid var(--line);border-radius:100px;font-size:12px;color:var(--brown4);cursor:pointer;font-family:var(--fb)"
       onclick="resetPendingAndRetry()">
       🔄 Recommencer le paiement
     </button>
@@ -1313,7 +1339,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <!-- Instructions -->
       <div style="background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.25);border-radius:var(--r);padding:14px 16px;margin-top:14px;font-size:12px;color:var(--brown3);line-height:1.8">
         <strong>📋 Comment approuver un paiement :</strong><br>
-        1. L'utilisateur t'envoie un reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600">mizan.budget@gmail.com</a></strong><br>
+        1. L'utilisateur t'envoie un reçu à <strong><a href="mailto:mizan.budget@gmail.com" style="color:var(--gold-dk);font-weight:600"><span class="__cf_email__" data-cfemail="2b4642514a4505495e4f4c4e5f6b4c464a424705484446">[email&#160;protected]</span></a></strong><br>
         2. Tu vérifies que le montant est bien <strong>45 DH</strong><br>
         3. Tu trouves l'email dans la liste ci-dessus et tu cliques <strong>✅ Approuver</strong><br>
         4. L'accès Pro de l'utilisateur est activé immédiatement pour <strong>30 jours</strong>
@@ -1330,18 +1356,18 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
     <div style="font-family:var(--fd);font-size:24px;font-weight:700;color:var(--brown);margin-bottom:8px" id="goal-done-ttl">Félicitations !</div>
     <p style="font-size:13px;color:var(--brown3);margin-bottom:20px;line-height:1.8" id="goal-done-msg"></p>
     <div style="background:linear-gradient(135deg,var(--brown2),var(--brown));border-radius:var(--r);padding:16px;margin-bottom:20px;text-align:left">
-      <div style="font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">🎯 Nouveau départ</div>
+      <div id="goal-done-new-label" style="font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">🎯 Nouveau départ</div>
       <div class="fg" style="margin-bottom:12px">
-        <label class="lbl" style="color:rgba(253,250,243,.55)">Nouveau salaire (DH) — si changé</label>
+        <label class="lbl" id="goal-done-sal-lbl" style="color:rgba(253,250,243,.55)">Nouveau salaire (DH) — si changé</label>
         <input id="new-salary-inp" class="inp" type="number" min="1500" style="background:rgba(255,255,255,.1);border-color:rgba(201,151,58,.4);color:var(--cream)">
       </div>
       <div class="fg">
-        <label class="lbl" style="color:rgba(253,250,243,.55)">Nouveau objectif</label>
+        <label class="lbl" id="goal-done-goal-lbl" style="color:rgba(253,250,243,.55)">Nouveau objectif</label>
         <select id="new-goal-sel" class="sel" style="background:rgba(255,255,255,.1);border-color:rgba(201,151,58,.4);color:var(--cream)"></select>
       </div>
     </div>
-    <button class="bpri" style="width:100%;justify-content:center" onclick="startNewGoal()">🚀 Lancer mon nouvel objectif →</button>
-    <button style="width:100%;padding:11px;background:transparent;border:none;font-size:12px;color:var(--brown4);cursor:pointer;font-family:var(--fb);margin-top:8px" onclick="closeModal('modal-goal-done')">Continuer avec l'objectif actuel</button>
+    <button class="bpri" style="width:100%;justify-content:center" onclick="startNewGoal()" id="goal-done-launch-btn">🚀 Lancer mon nouvel objectif →</button>
+    <button id="goal-done-keep-btn" style="width:100%;padding:11px;background:transparent;border:none;font-size:12px;color:var(--brown4);cursor:pointer;font-family:var(--fb);margin-top:8px" onclick="closeModal('modal-goal-done')">Continuer avec l'objectif actuel</button>
   </div>
 </div>
 
@@ -1375,6 +1401,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
   </div>
 </div>
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
 /* ════════════════════ DATA ════════════════════ */
 const CITIES = {
@@ -2597,10 +2624,12 @@ function refreshPricing(){
   safeSet('sp-guarantee-txt',p.guarantee);
   // If already Pro, update button
   if(isProActive()){
-    $('btn-choose-pro').innerHTML='<span>✅ Accès Pro actif — Continuer →</span>';
+    const proActiveTxt=L==='ar'?'← وصول Pro نشط — المتابعة':L==='en'?'✅ Pro Access active — Continue →':'✅ Accès Pro actif — Continuer →';
+    $('btn-choose-pro').innerHTML=`<span>${proActiveTxt}</span>`;
     $('btn-choose-pro').onclick=function(){ choosePro(); };
   } else if(proUser && proUser.paymentStatus==='pending'){
-    $('btn-choose-pro').innerHTML='<span>⏳ En attente · Cliquez pour gérer</span>';
+    const pendingTxt=L==='ar'?'⏳ في انتظار التحقق · انقر للإدارة':L==='en'?'⏳ Pending · Click to manage':'⏳ En attente · Cliquez pour gérer';
+    $('btn-choose-pro').innerHTML=`<span>${pendingTxt}</span>`;
     $('btn-choose-pro').style.opacity='0.85';
     $('btn-choose-pro').onclick=function(){ openModal('modal-pending'); };
   }
@@ -3417,41 +3446,294 @@ function buildTrackerTab(sal){
 }
 
 function buildTrackerHTML(sal){
+  const L=state.lang;
   const now=new Date();
   const monthKey=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const monthName=now.toLocaleDateString('fr-MA',{month:'long',year:'numeric'});
-  const cats=[
-    {k:'loyer',label:'Loyer / Logement',icon:'🏠',budget:sal*0.25},
-    {k:'food',label:'Alimentation',icon:'🛒',budget:sal*0.18},
-    {k:'trans',label:'Transport',icon:'🚌',budget:sal*0.09},
-    {k:'util',label:'Eau · Élec · Net',icon:'💡',budget:sal*0.07},
-    {k:'health',label:'Santé & Hygiène',icon:'🏥',budget:sal*0.05},
-    {k:'fun',label:'Loisirs & Imprévus',icon:'🎯',budget:sal*0.06},
-    {k:'other',label:'Autres dépenses',icon:'📦',budget:sal*0.04},
-  ];
-  let inputs='<div class="exp-grid">';
-  cats.forEach(c=>{
-    inputs+=`<div class="exp-row">
-      <label class="exp-lbl">${c.icon} ${c.label}</label>
-      <div style="display:flex;gap:6px;align-items:center">
+  const monthName=now.toLocaleDateString(L==='ar'?'ar-MA':L==='en'?'en-GB':'fr-MA',{month:'long',year:'numeric'});
+
+  // ── Multilingual labels ──
+  const TK={
+    fr:{
+      secTitle:'📊 Suivi mensuel',
+      howToTitle:'📖 Comment utiliser ce suivi en 4 étapes :',
+      step1lbl:'① Charges fixes',step1desc:'→ Saisissez votre loyer, eau et électricité (montants de vos factures réelles)',
+      step2lbl:'② Dépenses variables',step2desc:'→ Entrez ce que vous avez dépensé ce mois dans chaque catégorie',
+      step3lbl:'③ Bilan',step3desc:'→ Vérifiez votre solde restant automatiquement calculé',
+      step4lbl:'④ Budget/jour',step4desc:'→ Suivez vos dépenses quotidiennes pour ne pas dépasser',
+      s1title:'Charges fixes — payées 1 seule fois par mois',
+      s1sub:'Loyer, eau, électricité. Ce sont des montants connus d\'avance.',
+      s1why:'<strong>🔑 Pourquoi saisir ces 3 charges ici ?</strong><br>Le loyer, l\'eau et l\'électricité se paient <strong>une seule fois dans le mois</strong>, pas chaque jour. Mizan les déduit donc de votre salaire <em>avant</em> de diviser par le nombre de jours. Résultat : votre <strong>budget journalier</strong> reflète ce qui vous reste vraiment à dépenser au quotidien.',
+      s1formula:`Budget/jour = (Salaire − Loyer − Eau − Électricité) ÷ Jours du mois`,
+      s1parents:'<strong>💡 Vous vivez chez vos parents ?</strong> Décochez la case <strong>"Je paie ce poste"</strong> sur le Loyer (et/ou Alimentation plus bas) — Mizan ne comptera pas ce montant dans vos dépenses.',
+      iPayThis:'✅ Je paie ce poste',
+      suggestion:'Suggestion',salPct:'% du sal.',
+      s2title:'Dépenses variables — ce que vous dépensez ce mois-ci',
+      s2sub:'Alimentation, transport, internet… Saisissez vos montants réels de ce mois.',
+      s2how:'<strong>📋 Comment remplir correctement ?</strong><br>• Saisissez le montant <strong>réel</strong> que vous avez déjà dépensé ce mois (ou votre estimation habituelle).<br>• Les montants suggérés en jaune sont des <em>estimations recommandées</em> selon votre salaire — ce ne sont pas des valeurs obligatoires.<br>• Vous n\'êtes pas obligé de tout remplir — laissez vide ce qui ne vous concerne pas.',
+      s3title:'Vérifiez votre bilan mensuel',
+      s3sub:'Le résumé se met à jour automatiquement à chaque saisie.',
+      bilanTitle:'📊 Votre bilan du mois',
+      bilanSalLbl:'💰 Votre salaire',
+      bilanExpLbl:'📤 Total dépenses saisies',
+      bilanBalLbl:'💹 Solde estimé (épargne potentielle)',
+      bilanBalSub:'= Salaire − toutes les dépenses saisies',
+      saveBtnLbl:'💾 Sauvegarder ce mois',
+      exportBtnLbl:'📄 Exporter mon rapport mensuel',
+      s4title:'Budget journalier — suivi quotidien',
+      s4sub:`Combien pouvez-vous dépenser chaque jour ce mois-ci ?`,
+      s4how:`<strong>🧮 Comment est calculé votre budget/jour ?</strong><br>Mizan retire d'abord vos <strong>charges fixes</strong> (loyer + eau + électricité) car elles sont déjà payées en une fois. Ensuite, il divise ce qui reste par le nombre de jours du mois :`,
+      s4formula:`Budget/jour = (${Math.round(sal).toLocaleString('fr-MA')} DH − Loyer − Eau − Élec) ÷ jours du mois`,
+      s4hint:'💡 Remplissez d\'abord l\'Étape 1 pour voir votre budget/jour exact.',
+      s4howfill:'<strong>📝 Comment remplir le tableau journalier ?</strong><br>• Chaque soir (ou le lendemain matin), saisissez le <strong>total de ce que vous avez dépensé ce jour-là</strong>.<br>• Incluez : café, déjeuner, courses, transport du jour, achats divers...<br>• <strong>Ne comptez pas</strong> le loyer, l\'eau ou l\'électricité (déjà comptés dans les charges fixes).<br>• La colonne <strong>Statut</strong> vous dira si vous êtes dans ou hors budget.',
+      pillWaiting:'⏳ Remplissez l\'Étape 1 pour voir votre budget/jour',
+      tblDay:'📅 Jour',tblExp:'💸 Dépenses du jour (tout sauf loyer/eau/élec)',tblStatus:'📊 Statut vs budget/jour',
+      saveDailyBtn:'💾 Sauvegarder les dépenses journalières',
+      fixedCats:[
+        {k:'loyer',label:'Loyer / Logement',icon:'🏠',hint:'Le montant exact que vous payez chaque mois pour votre loyer ou crédit immobilier.',placeholder:'Ex: 2500',pct:0.25,budget:sal*0.25,optional:true,optKey:'loyer'},
+        {k:'eau',  label:'Eau (facture)',    icon:'🚰',hint:'Regardez votre dernière facture ONEE (eau).',placeholder:'Ex: 120',pct:0.03,budget:sal*0.03,optional:false},
+        {k:'elec', label:'Électricité',      icon:'⚡',hint:'Regardez votre dernière facture ONEE (électricité).',placeholder:'Ex: 180',pct:0.04,budget:sal*0.04,optional:false},
+      ],
+      varCats:[
+        {k:'food', label:'Alimentation',icon:'🛒',hint:'Ce que vous dépensez en nourriture, supermarché, souk, boucherie.',placeholder:'Ex: 1800',pct:0.18,budget:sal*0.18,optional:true,optKey:'food'},
+        {k:'trans',label:'Transport',   icon:'🚌',hint:'Bus, grand taxi, petit taxi, essence si vous avez une voiture.',placeholder:'Ex: 600',pct:0.09,budget:sal*0.09,optional:false},
+        {k:'net',  label:'Internet / Net',icon:'📶',hint:'Abonnement Internet maison (Maroc Telecom, Orange, Inwi).',placeholder:'Ex: 200',pct:0.02,budget:sal*0.02,optional:false},
+        {k:'health',label:'Santé & Hygiène',icon:'🏥',hint:'Médecin, pharmacie, produits hygiène. Total approximatif du mois.',placeholder:'Ex: 350',pct:0.05,budget:sal*0.05,optional:false},
+        {k:'fun',  label:'Loisirs & Imprévus',icon:'🎯',hint:'Cafés, sorties, habits, abonnements, dépenses imprévues. Soyez honnête !',placeholder:'Ex: 400',pct:0.06,budget:sal*0.06,optional:false},
+        {k:'other',label:'Autres dépenses',icon:'📦',hint:'Tout ce qui ne rentre pas dans les catégories ci-dessus.',placeholder:'Ex: 250',pct:0.04,budget:sal*0.04,optional:false},
+      ]
+    },
+    en:{
+      secTitle:'📊 Monthly tracker',
+      howToTitle:'📖 How to use this tracker in 4 steps:',
+      step1lbl:'① Fixed costs',step1desc:'→ Enter your rent, water and electricity (from your actual bills)',
+      step2lbl:'② Variable expenses',step2desc:'→ Enter what you spent this month in each category',
+      step3lbl:'③ Summary',step3desc:'→ Check your remaining balance, automatically calculated',
+      step4lbl:'④ Daily budget',step4desc:'→ Track daily spending so you never overspend',
+      s1title:'Fixed costs — paid once a month',
+      s1sub:'Rent, water, electricity. Known amounts paid upfront.',
+      s1why:'<strong>🔑 Why enter these 3 costs here?</strong><br>Rent, water and electricity are paid <strong>once a month</strong>, not daily. Mizan deducts them from your salary <em>before</em> dividing by the number of days. Result: your <strong>daily budget</strong> reflects what you truly have left to spend each day.',
+      s1formula:`Daily budget = (Salary − Rent − Water − Electricity) ÷ Days in month`,
+      s1parents:'<strong>💡 Living with your parents?</strong> Uncheck <strong>"I pay this"</strong> on Rent (and/or Food below) — Mizan won\'t count that amount in your expenses.',
+      iPayThis:'✅ I pay this',
+      suggestion:'Suggested',salPct:'% of sal.',
+      s2title:'Variable expenses — what you spend this month',
+      s2sub:'Food, transport, internet… Enter your real amounts for this month.',
+      s2how:'<strong>📋 How to fill in correctly?</strong><br>• Enter the <strong>real</strong> amount you have already spent this month (or your usual estimate).<br>• Suggested amounts in yellow are <em>recommended estimates</em> based on your salary — they are not mandatory.<br>• You don\'t need to fill everything — leave blank what doesn\'t apply.',
+      s3title:'Check your monthly summary',
+      s3sub:'The summary updates automatically with each entry.',
+      bilanTitle:'📊 Your monthly summary',
+      bilanSalLbl:'💰 Your salary',
+      bilanExpLbl:'📤 Total expenses entered',
+      bilanBalLbl:'💹 Estimated balance (potential savings)',
+      bilanBalSub:'= Salary − all entered expenses',
+      saveBtnLbl:'💾 Save this month',
+      exportBtnLbl:'📄 Export my monthly report',
+      s4title:'Daily budget — day-by-day tracking',
+      s4sub:'How much can you spend each day this month?',
+      s4how:`<strong>🧮 How is your daily budget calculated?</strong><br>Mizan first deducts your <strong>fixed costs</strong> (rent + water + electricity) since they're already paid once. Then it divides what remains by the number of days in the month:`,
+      s4formula:`Daily budget = (${Math.round(sal).toLocaleString('fr-MA')} DH − Rent − Water − Elec) ÷ days in month`,
+      s4hint:'💡 Fill in Step 1 first to see your exact daily budget.',
+      s4howfill:'<strong>📝 How to fill in the daily table?</strong><br>• Each evening (or the next morning), enter the <strong>total you spent that day</strong>.<br>• Include: coffee, lunch, groceries, daily transport, misc purchases...<br>• <strong>Do not count</strong> rent, water or electricity (already in fixed costs).<br>• The <strong>Status</strong> column will tell you if you\'re within budget.',
+      pillWaiting:'⏳ Fill in Step 1 to see your daily budget',
+      tblDay:'📅 Day',tblExp:'💸 Daily spending (excl. rent/water/elec)',tblStatus:'📊 Status vs daily budget',
+      saveDailyBtn:'💾 Save daily expenses',
+      fixedCats:[
+        {k:'loyer',label:'Rent / Housing',icon:'🏠',hint:'The exact amount you pay each month for rent or mortgage. Check your contract.',placeholder:'e.g. 2500',pct:0.25,budget:sal*0.25,optional:true,optKey:'loyer'},
+        {k:'eau',  label:'Water (bill)',   icon:'🚰',hint:'Check your last ONEE water bill and enter the total.',placeholder:'e.g. 120',pct:0.03,budget:sal*0.03,optional:false},
+        {k:'elec', label:'Electricity',   icon:'⚡',hint:'Check your last ONEE electricity bill and enter the total.',placeholder:'e.g. 180',pct:0.04,budget:sal*0.04,optional:false},
+      ],
+      varCats:[
+        {k:'food', label:'Food',          icon:'🛒',hint:'Groceries, supermarket, souk, butcher. Uncheck if you eat at your parents\'.',placeholder:'e.g. 1800',pct:0.18,budget:sal*0.18,optional:true,optKey:'food'},
+        {k:'trans',label:'Transport',     icon:'🚌',hint:'Bus, taxi, petrol if you have a car. Full month total.',placeholder:'e.g. 600',pct:0.09,budget:sal*0.09,optional:false},
+        {k:'net',  label:'Internet',      icon:'📶',hint:'Home internet subscription (Maroc Telecom, Orange, Inwi). Monthly amount.',placeholder:'e.g. 200',pct:0.02,budget:sal*0.02,optional:false},
+        {k:'health',label:'Health & Hygiene',icon:'🏥',hint:'Doctor, pharmacy, hygiene products. Approximate monthly total.',placeholder:'e.g. 350',pct:0.05,budget:sal*0.05,optional:false},
+        {k:'fun',  label:'Leisure & Misc',icon:'🎯',hint:'Cafes, outings, clothes, subscriptions (Netflix…), unexpected costs. Be honest!',placeholder:'e.g. 400',pct:0.06,budget:sal*0.06,optional:false},
+        {k:'other',label:'Other expenses',icon:'📦',hint:'Anything not covered above (gifts, repairs, etc.).',placeholder:'e.g. 250',pct:0.04,budget:sal*0.04,optional:false},
+      ]
+    },
+    ar:{
+      secTitle:'📊 تتبع الشهر',
+      howToTitle:'📖 كيف تستخدم هذا التتبع في 4 خطوات:',
+      step1lbl:'① التكاليف الثابتة',step1desc:'← أدخل الإيجار والماء والكهرباء (من فواتيرك الفعلية)',
+      step2lbl:'② المصاريف المتغيرة',step2desc:'← أدخل ما أنفقته هذا الشهر في كل فئة',
+      step3lbl:'③ الملخص',step3desc:'← تحقق من رصيدك المتبقي المحسوب تلقائياً',
+      step4lbl:'④ الميزانية اليومية',step4desc:'← تتبع إنفاقك اليومي حتى لا تتجاوز الحد',
+      s1title:'التكاليف الثابتة — تُدفع مرة واحدة في الشهر',
+      s1sub:'الإيجار، الماء، الكهرباء. مبالغ معروفة مسبقاً.',
+      s1why:'<strong>🔑 لماذا تُدخل هذه التكاليف الثلاثة هنا؟</strong><br>الإيجار والماء والكهرباء تُدفع <strong>مرة واحدة في الشهر</strong>، وليس كل يوم. يخصمها ميزان من راتبك <em>قبل</em> القسمة على عدد الأيام. النتيجة: <strong>ميزانيتك اليومية</strong> تعكس ما تبقى لك فعلاً للإنفاق.',
+      s1formula:`الميزانية اليومية = (الراتب − الإيجار − الماء − الكهرباء) ÷ أيام الشهر`,
+      s1parents:'<strong>💡 تسكن مع والديك؟</strong> أزل علامة <strong>"أنا أدفع هذا"</strong> على الإيجار (و/أو الغذاء أدناه) — لن يحتسبه ميزان ضمن مصاريفك.',
+      iPayThis:'✅ أنا أدفع هذا',
+      suggestion:'اقتراح',salPct:'% من الراتب',
+      s2title:'المصاريف المتغيرة — ما أنفقته هذا الشهر',
+      s2sub:'الغذاء، النقل، الإنترنت… أدخل مبالغك الفعلية لهذا الشهر.',
+      s2how:'<strong>📋 كيف تملأ الخانات بشكل صحيح؟</strong><br>• أدخل المبلغ <strong>الفعلي</strong> الذي أنفقته هذا الشهر (أو تقديرك المعتاد).<br>• المبالغ المقترحة باللون الأصفر هي <em>تقديرات موصى بها</em> حسب راتبك — وليست قيماً إلزامية.<br>• لا تحتاج لملء كل شيء — اترك فارغاً ما لا ينطبق عليك.',
+      s3title:'تحقق من ملخصك الشهري',
+      s3sub:'يتحدث الملخص تلقائياً عند كل إدخال.',
+      bilanTitle:'📊 ملخصك الشهري',
+      bilanSalLbl:'💰 راتبك',
+      bilanExpLbl:'📤 إجمالي المصاريف المُدخلة',
+      bilanBalLbl:'💹 الرصيد المقدر (التوفير المحتمل)',
+      bilanBalSub:'= الراتب − جميع المصاريف المُدخلة',
+      saveBtnLbl:'💾 حفظ هذا الشهر',
+      exportBtnLbl:'📄 تصدير تقريري الشهري',
+      s4title:'الميزانية اليومية — متابعة يوم بيوم',
+      s4sub:'كم يمكنك إنفاقه كل يوم هذا الشهر؟',
+      s4how:`<strong>🧮 كيف تُحسب ميزانيتك اليومية؟</strong><br>يخصم ميزان أولاً <strong>تكاليفك الثابتة</strong> (الإيجار + الماء + الكهرباء) لأنها تُدفع مرة واحدة. ثم يقسّم الباقي على عدد أيام الشهر:`,
+      s4formula:`الميزانية اليومية = (${Math.round(sal).toLocaleString('fr-MA')} درهم − الإيجار − الماء − الكهرباء) ÷ أيام الشهر`,
+      s4hint:'💡 أكمل الخطوة 1 أولاً لرؤية ميزانيتك اليومية الدقيقة.',
+      s4howfill:'<strong>📝 كيف تملأ الجدول اليومي؟</strong><br>• كل مساء (أو صباح اليوم التالي)، أدخل <strong>إجمالي ما أنفقته ذلك اليوم</strong>.<br>• تضمّن: القهوة، الغداء، التسوق، النقل اليومي، مشتريات متفرقة...<br>• <strong>لا تحسب</strong> الإيجار أو الماء أو الكهرباء (مُدرجة في التكاليف الثابتة).<br>• عمود <strong>الحالة</strong> سيخبرك إن كنت ضمن ميزانيتك أم لا.',
+      pillWaiting:'⏳ أكمل الخطوة 1 لرؤية ميزانيتك اليومية',
+      tblDay:'📅 اليوم',tblExp:'💸 مصاريف اليوم (بدون إيجار/ماء/كهرباء)',tblStatus:'📊 الحالة مقارنة بالميزانية',
+      saveDailyBtn:'💾 حفظ المصاريف اليومية',
+      fixedCats:[
+        {k:'loyer',label:'الإيجار / السكن',icon:'🏠',hint:'المبلغ الذي تدفعه شهرياً للإيجار أو قرضك العقاري.',placeholder:'مثال: 2500',pct:0.25,budget:sal*0.25,optional:true,optKey:'loyer'},
+        {k:'eau',  label:'فاتورة الماء',  icon:'🚰',hint:'انظر فاتورة ONEE الأخيرة (ماء) وأدخل المبلغ.',placeholder:'مثال: 120',pct:0.03,budget:sal*0.03,optional:false},
+        {k:'elec', label:'الكهرباء',      icon:'⚡',hint:'انظر فاتورة ONEE الأخيرة (كهرباء) وأدخل المبلغ.',placeholder:'مثال: 180',pct:0.04,budget:sal*0.04,optional:false},
+      ],
+      varCats:[
+        {k:'food', label:'الغذاء',        icon:'🛒',hint:'ما تنفقه في السوق، المتجر، الجزار. أزل العلامة إن كنت تأكل عند والديك.',placeholder:'مثال: 1800',pct:0.18,budget:sal*0.18,optional:true,optKey:'food'},
+        {k:'trans',label:'النقل',         icon:'🚌',hint:'الحافلة، التاكسي، الوقود إن كان لديك سيارة. مجموع الشهر كاملاً.',placeholder:'مثال: 600',pct:0.09,budget:sal*0.09,optional:false},
+        {k:'net',  label:'الإنترنت',      icon:'📶',hint:'اشتراك الإنترنت المنزلي (اتصالات المغرب، أورنج، إنوي). المبلغ الشهري.',placeholder:'مثال: 200',pct:0.02,budget:sal*0.02,optional:false},
+        {k:'health',label:'الصحة والنظافة',icon:'🏥',hint:'طبيب، صيدلية، منتجات النظافة. الإجمالي التقريبي للشهر.',placeholder:'مثال: 350',pct:0.05,budget:sal*0.05,optional:false},
+        {k:'fun',  label:'الترفيه والطوارئ',icon:'🎯',hint:'المقاهي، الخروجات، الملابس، الاشتراكات، المصاريف غير المتوقعة.',placeholder:'مثال: 400',pct:0.06,budget:sal*0.06,optional:false},
+        {k:'other',label:'مصاريف أخرى',  icon:'📦',hint:'كل ما لا يندرج في الفئات أعلاه (هدايا، إصلاحات...).',placeholder:'مثال: 250',pct:0.04,budget:sal*0.04,optional:false},
+      ]
+    }
+  };
+  const tk=TK[L]||TK.fr;
+  const mk2=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const onchg=`updateTrackerSummary(${Math.round(sal)});buildDailyTable(${Math.round(sal)},'${mk2}');`;
+
+  function renderExpRow(c){
+    const optHtml=c.optional
+      ? `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--brown2);cursor:pointer;background:rgba(201,151,58,.10);border:1px solid rgba(201,151,58,.3);padding:4px 10px;border-radius:100px;font-weight:600;user-select:none">
+           <input type="checkbox" id="opt-${c.optKey}" checked onchange="${onchg}" style="accent-color:var(--gold);width:15px;height:15px;cursor:pointer">
+           ${tk.iPayThis}
+         </label>`
+      : '';
+    return `<div style="background:var(--cream);border:1.5px solid var(--beige3);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--brown);display:flex;align-items:center;gap:6px">${c.icon} ${c.label}</div>
+          <div style="font-size:11px;color:var(--brown4);margin-top:3px;line-height:1.55">${c.hint||''}</div>
+        </div>
+        ${optHtml}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
         <div class="exp-inp-wrap" style="flex:1">
           <span class="exp-inp-prefix">DH</span>
-          <input class="exp-inp" type="number" id="exp-${c.k}" min="0" placeholder="${Math.round(c.budget)}" data-budget="${Math.round(c.budget)}" oninput="updateTrackerSummary(${Math.round(sal)})">
+          <input class="exp-inp" type="number" id="exp-${c.k}" min="0"
+            placeholder="${c.placeholder||Math.round(c.budget)}"
+            data-budget="${Math.round(c.budget)}"
+            oninput="${onchg}"
+            style="font-size:15px;font-weight:600">
         </div>
-        <div style="font-size:10px;color:var(--brown4);text-align:right;line-height:1.3;flex-shrink:0">Budget<br>${Math.round(c.budget).toLocaleString('fr-MA')} DH</div>
+        <div style="font-size:10px;color:var(--brown4);text-align:right;line-height:1.4;flex-shrink:0;min-width:70px">
+          ${tk.suggestion}<br><span style="color:var(--gold-dk);font-weight:700">${Math.round(c.budget).toLocaleString('fr-MA')} DH</span><br>
+          <span style="opacity:.7">${Math.round(c.pct*100)}${tk.salPct}</span>
+        </div>
       </div>
     </div>`;
-  });
-  inputs+='</div>';
-  return `<div class="sec-h" style="margin-bottom:16px">📊 Suivi — ${monthName}</div>
-  ${inputs}
-  <div id="exp-summary-box" class="exp-summary" style="margin-bottom:16px">
-    <div class="exp-summary-row"><span class="exp-sum-l">💰 Salaire</span><span class="exp-sum-v">${Math.round(sal).toLocaleString('fr-MA')} DH</span></div>
-    <div class="exp-summary-row"><span class="exp-sum-l">📤 Dépenses saisies</span><span class="exp-sum-v" id="exp-total-disp">0 DH</span></div>
-    <div class="exp-summary-row"><span class="exp-sum-l">💹 Solde estimé</span><span class="exp-sum-v" id="exp-balance-disp">— DH</span></div>
+  }
+
+  return `<div class="sec-h" style="margin-bottom:4px">${tk.secTitle} — ${monthName}</div>
+  <div style="background:rgba(107,143,168,.08);border:1px solid rgba(107,143,168,.25);border-radius:var(--r);padding:12px 16px;margin-bottom:18px;font-size:12px;color:var(--blue);line-height:1.7">
+    <strong>${tk.howToTitle}</strong><br>
+    <span style="color:var(--terra);font-weight:700">${tk.step1lbl}</span> ${tk.step1desc}<br>
+    <span style="color:var(--olive);font-weight:700">${tk.step2lbl}</span> ${tk.step2desc}<br>
+    <span style="color:var(--blue);font-weight:700">${tk.step3lbl}</span> ${tk.step3desc}<br>
+    <span style="color:var(--gold-dk);font-weight:700">${tk.step4lbl}</span> ${tk.step4desc}
   </div>
-  <button class="exp-save-btn" onclick="saveMonthExpenses('${monthKey}',${sal})">💾 Sauvegarder ce mois</button>
-  <button onclick="exportMonthReport('${monthKey}',${sal})" style="width:100%;padding:12px;background:transparent;border:2px solid var(--gold);color:var(--gold-dk);border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;margin-top:8px" onmouseover="this.style.background='rgba(201,151,58,.08)'" onmouseout="this.style.background='transparent'">📄 Exporter mon rapport mensuel</button>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <div style="width:30px;height:30px;background:var(--terra);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">1</div>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--brown)">${tk.s1title}</div>
+      <div style="font-size:12px;color:var(--brown4);margin-top:1px">${tk.s1sub}</div>
+    </div>
+  </div>
+  <div style="background:rgba(196,98,58,.05);border:2px solid rgba(196,98,58,.18);border-radius:var(--r);padding:16px;margin-bottom:8px">
+    <div style="background:rgba(196,98,58,.08);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--terra);line-height:1.8">
+      ${tk.s1why}<br>
+      <span style="display:inline-block;margin-top:6px;background:var(--cream);padding:4px 10px;border-radius:6px;font-weight:700;color:var(--brown)">${tk.s1formula}</span>
+    </div>
+    <div style="background:rgba(201,151,58,.08);border:1px dashed rgba(201,151,58,.4);border-radius:8px;padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--brown3);line-height:1.7">${tk.s1parents}</div>
+    <div style="display:flex;flex-direction:column;gap:12px">${tk.fixedCats.map(renderExpRow).join('')}</div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin:20px 0 12px">
+    <div style="width:30px;height:30px;background:var(--olive);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">2</div>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--brown)">${tk.s2title}</div>
+      <div style="font-size:12px;color:var(--brown4);margin-top:1px">${tk.s2sub}</div>
+    </div>
+  </div>
+  <div style="background:rgba(122,158,95,.04);border:2px solid rgba(122,158,95,.18);border-radius:var(--r);padding:16px;margin-bottom:8px">
+    <div style="background:rgba(122,158,95,.10);border-radius:10px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--olive);line-height:1.7">${tk.s2how}</div>
+    <div style="display:flex;flex-direction:column;gap:12px">${tk.varCats.map(renderExpRow).join('')}</div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin:20px 0 12px">
+    <div style="width:30px;height:30px;background:var(--blue);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">3</div>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--brown)">${tk.s3title}</div>
+      <div style="font-size:12px;color:var(--brown4);margin-top:1px">${tk.s3sub}</div>
+    </div>
+  </div>
+
+  <div style="background:var(--brown);border-radius:var(--r);padding:18px 20px;margin-bottom:16px">
+    <div style="font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px">${tk.bilanTitle}</div>
+    <div id="exp-summary-box">
+      <div class="exp-summary-row" style="border-color:rgba(253,250,243,.1)">
+        <span style="font-size:13px;color:rgba(253,250,243,.6)">${tk.bilanSalLbl}</span>
+        <span style="font-size:15px;font-weight:700;color:var(--gold-lt)">${Math.round(sal).toLocaleString('fr-MA')} DH</span>
+      </div>
+      <div class="exp-summary-row" style="border-color:rgba(253,250,243,.1)">
+        <span style="font-size:13px;color:rgba(253,250,243,.6)">${tk.bilanExpLbl}</span>
+        <span style="font-size:15px;font-weight:700;color:var(--terra)" id="exp-total-disp">0 DH</span>
+      </div>
+      <div style="padding-top:12px;margin-top:4px;border-top:1px solid rgba(253,250,243,.15)">
+        <div style="font-size:11px;color:rgba(253,250,243,.4);margin-bottom:4px">${tk.bilanBalLbl}</div>
+        <div style="font-family:var(--fd);font-size:28px;font-weight:700" id="exp-balance-disp" style="color:var(--gold-lt)">— DH</div>
+        <div style="font-size:11px;color:rgba(253,250,243,.35);margin-top:4px">${tk.bilanBalSub}</div>
+      </div>
+    </div>
+  </div>
+  <button class="exp-save-btn" onclick="saveMonthExpenses('${monthKey}',${sal})">${tk.saveBtnLbl}</button>
+  <button onclick="exportMonthReport('${monthKey}',${sal})" style="width:100%;padding:12px;background:transparent;border:2px solid var(--gold);color:var(--gold-dk);border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s;margin-top:8px" onmouseover="this.style.background='rgba(201,151,58,.08)'" onmouseout="this.style.background='transparent'">${tk.exportBtnLbl}</button>
+
+  <div class="daily-exp-wrap" id="daily-exp-wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin:24px 0 12px">
+      <div style="width:30px;height:30px;background:var(--gold-dk);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">4</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--brown)">${tk.s4title}</div>
+        <div style="font-size:12px;color:var(--brown4);margin-top:1px">${tk.s4sub}</div>
+      </div>
+    </div>
+    <div style="background:rgba(201,151,58,.07);border:1.5px solid rgba(201,151,58,.25);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;font-size:12px;color:var(--brown2);line-height:1.8">
+      ${tk.s4how}<br>
+      <div style="display:inline-block;margin-top:8px;background:var(--cream);border:1.5px solid rgba(201,151,58,.35);padding:8px 14px;border-radius:8px;font-weight:700;color:var(--brown);font-size:13px">${tk.s4formula}</div><br>
+      <span style="font-size:11px;color:var(--brown4);margin-top:6px;display:block">${tk.s4hint}</span>
+    </div>
+    <div style="background:rgba(201,151,58,.06);border:1px solid rgba(201,151,58,.2);border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-size:12px;color:var(--brown3);line-height:1.7">${tk.s4howfill}</div>
+    <div class="daily-exp-header">
+      <div class="daily-budget-pill" id="daily-budget-pill">${tk.pillWaiting}</div>
+      <div style="font-size:11px;color:var(--brown4)" id="daily-month-lbl">${monthName}</div>
+    </div>
+    <div style="overflow-x:auto;border-radius:var(--r);border:1px solid var(--beige3)">
+      <table class="daily-table" id="daily-table">
+        <thead><tr>
+          <th>${tk.tblDay}</th>
+          <th>${tk.tblExp}</th>
+          <th style="text-align:center">${tk.tblStatus}</th>
+         </thead>
+        <tbody id="daily-tbody"></tbody>
+        <tfoot id="daily-tfoot"></tfoot>
+       </table>
+    </div>
+    <button class="daily-save-btn" onclick="saveDailyExpenses('${monthKey}')">${tk.saveDailyBtn}</button>
+  </div>
   <div class="exp-history" id="exp-history-list"></div>`;
 }
 
@@ -3463,28 +3745,234 @@ function setupTrackerInputs(sal){
     try{
       const stored=JSON.parse(localStorage.getItem(getExpenseKey(proUser.email,mk))||'null');
       if(stored){
-        Object.entries(stored).forEach(([k,v])=>{ const el=$(('exp-'+k)); if(el) el.value=v; });
+        // Migrate old 'util' key to eau+elec+net if needed
+        if(stored.util && !stored.eau && !stored.elec){
+          stored.eau  = Math.round(stored.util * 0.40);
+          stored.elec = Math.round(stored.util * 0.50);
+          stored.net  = Math.round(stored.util * 0.10);
+          delete stored.util;
+        }
+        Object.entries(stored).forEach(([k,v])=>{
+          if(k.startsWith('_')) return;
+          const el=$('exp-'+k);
+          if(el) el.value=v;
+        });
+        // Handle optional checkboxes: if value is 0, uncheck
+        ['loyer','food'].forEach(k=>{
+          const cb=document.getElementById('opt-'+k);
+          if(cb && (stored[k]===0 || stored[k]==='0')) cb.checked=false;
+        });
         updateTrackerSummary(sal);
       }
     }catch(e){}
-  },100);
+    // Bind fixed cost inputs to refresh daily table on any change
+    ['loyer','eau','elec'].forEach(k=>{
+      const el=$('exp-'+k);
+      if(el && !el._dailyBound){ el._dailyBound=true; el.addEventListener('input',()=>buildDailyTable(sal,mk)); }
+      const cb=document.getElementById('opt-'+k);
+      if(cb && !cb._dailyBound){ cb._dailyBound=true; cb.addEventListener('change',()=>{ updateTrackerSummary(sal); buildDailyTable(sal,mk); }); }
+    });
+    buildDailyTable(sal, mk);
+  },150);
+}
+
+/* ── DAILY EXPENSE FUNCTIONS ── */
+function getDailyExpKey(email,month){ return 'mizan_daily_'+btoa(email.toLowerCase()).replace(/=/g,'')+'_'+month; }
+
+function buildDailyTable(sal, monthKey){
+  const tbody=$('daily-tbody');
+  const tfoot=$('daily-tfoot');
+  const pill=$('daily-budget-pill');
+  if(!tbody||!tfoot) return;
+
+  // Fixed monthly costs — only subtract if checkbox is checked (or field has value)
+  const loyerCb=document.getElementById('opt-loyer');
+  const loyerEnabled=loyerCb ? loyerCb.checked : true;
+  const loyerEl=$('exp-loyer');
+  const loyer=loyerEnabled && loyerEl ? (parseFloat(loyerEl.value)||0) : 0;
+
+  const eauEl=$('exp-eau');
+  const elecEl=$('exp-elec');
+  const eau=eauEl ? (parseFloat(eauEl.value)||0) : 0;
+  const elec=elecEl ? (parseFloat(elecEl.value)||0) : 0;
+
+  const totalFixed=loyer+eau+elec;
+
+  const now=new Date();
+  const [yr,mo]=monthKey.split('-').map(Number);
+  const daysInMonth=new Date(yr,mo,0).getDate();
+  const todayDate=now.getDate();
+  const isCurrentMonth=(now.getFullYear()===yr && now.getMonth()+1===mo);
+
+  // Daily budget = (salary - loyer - eau - elec) / days
+  const dailyBudget=totalFixed>0 ? (sal-totalFixed)/daysInMonth : sal/daysInMonth;
+  const fixedLabel=totalFixed>0
+    ? (state.lang==='ar'?` <span style="font-size:10px;opacity:.7">(بدون إيجار${eau>0?'+ماء':''}${elec>0?'+كهرباء':''})</span>`:state.lang==='en'?` <span style="font-size:10px;opacity:.7">(excl. rent${eau>0?'+water':''}${elec>0?'+elec':''})</span>`:` <span style="font-size:10px;opacity:.7">(loyer${eau>0?'+eau':''}${elec>0?'+élec':''} exclus)</span>`)
+    : '';
+  const pillBudgetLbl=state.lang==='ar'?'📅 الميزانية/يوم':state.lang==='en'?'📅 Budget/day':'📅 Budget/jour';
+  if(pill) pill.innerHTML=`${pillBudgetLbl} : <strong style="margin-left:4px">${Math.round(dailyBudget).toLocaleString('fr-MA')} DH</strong>${fixedLabel}`;
+
+  // Load saved daily data
+  let saved={};
+  if(proUser){
+    try{ saved=JSON.parse(localStorage.getItem(getDailyExpKey(proUser.email,monthKey))||'{}'); }catch(e){}
+  }
+
+  let rows='';
+  let totalSpent=0;
+  let daysEntered=0;
+  for(let d=1;d<=daysInMonth;d++){
+    const isToday=isCurrentMonth && d===todayDate;
+    const isFuture=isCurrentMonth && d>todayDate;
+    const dayKey='d'+d;
+    const val=saved[dayKey]||0;
+    if(val>0){ totalSpent+=val; daysEntered++; }
+    const diff=val-dailyBudget;
+    let statusHtml='';
+    if(isFuture){
+      statusHtml=`<span class="daily-status ds-empty">—</span>`;
+    } else if(isToday){
+      const todayLbl=state.lang==='ar'?'اليوم':state.lang==='en'?'Today':'Aujourd\'hui';
+      statusHtml=val>0
+        ? (diff<=0 ? `<span class="daily-status ds-ok">✓ +${Math.round(-diff).toLocaleString('fr-MA')} DH</span>` : `<span class="daily-status ds-over">▲ ${Math.round(diff).toLocaleString('fr-MA')} DH</span>`)
+        : `<span class="daily-status ds-today">${todayLbl}</span>`;
+    } else {
+      const notEnteredLbl=state.lang==='ar'?'غير مُدخل':state.lang==='en'?'Not entered':'Non saisi';
+      statusHtml=val===0
+        ? `<span class="daily-status ds-empty">${notEnteredLbl}</span>`
+        : (diff<=0 ? `<span class="daily-status ds-ok">✓ +${Math.round(-diff).toLocaleString('fr-MA')} DH</span>` : `<span class="daily-status ds-over">▲ ${Math.round(diff).toLocaleString('fr-MA')} DH</span>`);
+    }
+    const dayName=new Date(yr,mo-1,d).toLocaleDateString('fr-MA',{weekday:'short'});
+    rows+=`<tr class="${isToday?'today-row':''}">
+      <td class="daily-day-cell">${isToday?'📍 ':''}<span dir="ltr">${d} ${dayName.charAt(0).toUpperCase()+dayName.slice(1)}</span> </td>
+      <td>
+        <div class="daily-inp-wrap">
+          <span class="daily-inp-prefix">DH</span>
+          <input class="daily-inp" type="number" min="0" id="daily-d${d}" placeholder="0" value="${val||''}" ${isFuture?'disabled style="opacity:.4;cursor:not-allowed"':''} oninput="refreshDailyStatus(${sal},'${monthKey}')">
+        </div>
+      </td>
+      <td style="text-align:center" id="daily-status-d${d}">${statusHtml}</td>
+     </tr>`;
+  }
+  tbody.innerHTML=rows;
+
+  // Totals row
+  const totalBudget=dailyBudget*(isCurrentMonth?todayDate:daysInMonth);
+  const balance=totalBudget-totalSpent;
+  const dayWord=state.lang==='ar'?'يوم':state.lang==='en'?'day':'jour';
+  const savingWord=state.lang==='ar'?'✓ توفير':state.lang==='en'?'✓ Saving':'✓ Économie';
+  const overWord=state.lang==='ar'?'▲ تجاوز':state.lang==='en'?'▲ Over budget':'▲ Dépassement';
+  const totalLbl=state.lang==='ar'?'الإجمالي':state.lang==='en'?'Total':'Total';
+  tfoot.innerHTML=`<tr class="daily-totals-row">
+    <td>📊 ${totalLbl} (${daysEntered} ${dayWord}${daysEntered>1&&state.lang==='fr'?'s':''})</td>
+    <td dir="ltr">${Math.round(totalSpent).toLocaleString('fr-MA')} DH</td>
+    <td style="text-align:center;font-size:12px;color:${balance>=0?'var(--olive)':'var(--terra)'}">
+      ${balance>=0?savingWord:overWord} : ${Math.round(Math.abs(balance)).toLocaleString('fr-MA')} DH
+    </td>
+   </tr>`;
+}
+
+function refreshDailyStatus(sal, monthKey){
+  const [yr,mo]=monthKey.split('-').map(Number);
+  const daysInMonth=new Date(yr,mo,0).getDate();
+  // Recalculate fixed costs same way as buildDailyTable
+  const loyerCb=document.getElementById('opt-loyer');
+  const loyerEnabled=loyerCb ? loyerCb.checked : true;
+  const loyerEl=$('exp-loyer');
+  const loyer=loyerEnabled && loyerEl ? (parseFloat(loyerEl.value)||0) : 0;
+  const eau=parseFloat($('exp-eau')?.value)||0;
+  const elec=parseFloat($('exp-elec')?.value)||0;
+  const totalFixed=loyer+eau+elec;
+  const dailyBudget=totalFixed>0 ? (sal-totalFixed)/daysInMonth : sal/daysInMonth;
+  const fixedLabel=totalFixed>0
+    ? (state.lang==='ar'?` <span style="font-size:10px;opacity:.7">(بدون إيجار${eau>0?'+ماء':''}${elec>0?'+كهرباء':''})</span>`:state.lang==='en'?` <span style="font-size:10px;opacity:.7">(excl. rent${eau>0?'+water':''}${elec>0?'+elec':''})</span>`:` <span style="font-size:10px;opacity:.7">(loyer${eau>0?'+eau':''}${elec>0?'+élec':''} exclus)</span>`)
+    : '';
+  const pill=$('daily-budget-pill');
+  const pillBudgetLbl2=state.lang==='ar'?'📅 الميزانية/يوم':state.lang==='en'?'📅 Budget/day':'📅 Budget/jour';
+  if(pill) pill.innerHTML=`${pillBudgetLbl2} : <strong style="margin-left:4px">${Math.round(dailyBudget).toLocaleString('fr-MA')} DH</strong>${fixedLabel}`;
+  const now=new Date();
+  const isCurrentMonth=(now.getFullYear()===yr && now.getMonth()+1===mo);
+  const todayDate=now.getDate();
+  let totalSpent=0; let daysEntered=0;
+  for(let d=1;d<=daysInMonth;d++){
+    const isFuture=isCurrentMonth && d>todayDate;
+    const isToday=isCurrentMonth && d===todayDate;
+    const el=$('daily-d'+d);
+    const statusEl=$('daily-status-d'+d);
+    if(!el||!statusEl) continue;
+    const val=parseFloat(el.value)||0;
+    if(val>0){ totalSpent+=val; daysEntered++; }
+    if(isFuture) continue;
+    const diff=val-dailyBudget;
+    let statusHtml='';
+    if(isToday){
+      const todayLbl2=state.lang==='ar'?'اليوم':state.lang==='en'?'Today':'Aujourd\'hui';
+      statusHtml=val>0
+        ? (diff<=0?`<span class="daily-status ds-ok">✓ +${Math.round(-diff).toLocaleString('fr-MA')} DH</span>`:`<span class="daily-status ds-over">▲ ${Math.round(diff).toLocaleString('fr-MA')} DH</span>`)
+        : `<span class="daily-status ds-today">${todayLbl2}</span>`;
+    } else {
+      const notEnteredLbl2=state.lang==='ar'?'غير مُدخل':state.lang==='en'?'Not entered':'Non saisi';
+      statusHtml=val===0
+        ? `<span class="daily-status ds-empty">${notEnteredLbl2}</span>`
+        : (diff<=0?`<span class="daily-status ds-ok">✓ +${Math.round(-diff).toLocaleString('fr-MA')} DH</span>`:`<span class="daily-status ds-over">▲ ${Math.round(diff).toLocaleString('fr-MA')} DH</span>`);
+    }
+    statusEl.innerHTML=statusHtml;
+  }
+  const tfoot=$('daily-tfoot');
+  if(tfoot){
+    const totalBudget=dailyBudget*(isCurrentMonth?todayDate:daysInMonth);
+    const balance=totalBudget-totalSpent;
+    const dayWord2=state.lang==='ar'?'يوم':state.lang==='en'?'day':'jour';
+    const savingWord2=state.lang==='ar'?'✓ توفير':state.lang==='en'?'✓ Saving':'✓ Économie';
+    const overWord2=state.lang==='ar'?'▲ تجاوز':state.lang==='en'?'▲ Over budget':'▲ Dépassement';
+    const totalLbl2=state.lang==='ar'?'الإجمالي':state.lang==='en'?'Total':'Total';
+    tfoot.innerHTML=`<tr class="daily-totals-row">
+      <td>📊 ${totalLbl2} (${daysEntered} ${dayWord2}${daysEntered>1&&state.lang==='fr'?'s':''})</td>
+      <td dir="ltr">${Math.round(totalSpent).toLocaleString('fr-MA')} DH</td>
+      <td style="text-align:center;font-size:12px;color:${balance>=0?'var(--olive)':'var(--terra)'}">
+        ${balance>=0?savingWord2:overWord2} : ${Math.round(Math.abs(balance)).toLocaleString('fr-MA')} DH
+      </td>
+     </tr>`;
+  }
+}
+
+function saveDailyExpenses(monthKey){
+  if(!proUser) return;
+  const [yr,mo]=monthKey.split('-').map(Number);
+  const daysInMonth=new Date(yr,mo,0).getDate();
+  const data={};
+  for(let d=1;d<=daysInMonth;d++){
+    const el=$('daily-d'+d);
+    if(el){ const v=parseFloat(el.value)||0; if(v>0) data['d'+d]=v; }
+  }
+  localStorage.setItem(getDailyExpKey(proUser.email,monthKey),JSON.stringify(data));
+  const btn=document.querySelector('.daily-save-btn');
+  if(btn){ const orig=btn.textContent; const savedTxt=state.lang==='ar'?'✅ تم الحفظ !':state.lang==='en'?'✅ Saved!':'✅ Sauvegardé !'; btn.textContent=savedTxt; btn.style.background='var(--olive)'; setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000); }
 }
 
 function updateTrackerSummary(sal){
-  const cats=['loyer','food','trans','util','health','fun','other'];
+  const allCats=['loyer','eau','elec','food','trans','net','health','fun','other'];
   let total=0;
-  cats.forEach(k=>{ const el=$('exp-'+k); if(el) total+=parseFloat(el.value)||0; });
+  allCats.forEach(k=>{
+    const el=$('exp-'+k);
+    if(!el) return;
+    // If optional and unchecked, don't count
+    const cb=document.getElementById('opt-'+k);
+    if(cb && !cb.checked) return;
+    total+=parseFloat(el.value)||0;
+  });
   const balance=sal-total;
   if($('exp-total-disp')) $('exp-total-disp').textContent=Math.round(total).toLocaleString('fr-MA')+' DH';
   if($('exp-balance-disp')){
-    $('exp-balance-disp').textContent=Math.round(balance).toLocaleString('fr-MA')+' DH';
-    $('exp-balance-disp').className='exp-sum-v '+(balance>=0?'surplus':'deficit');
+    const el=$('exp-balance-disp');
+    el.textContent=(balance>=0?'+':'')+Math.round(balance).toLocaleString('fr-MA')+' DH';
+    el.style.color=balance>=0?'var(--gold-lt)':'var(--terra)';
   }
 }
 
 function saveMonthExpenses(monthKey, sal){
   if(!proUser) return;
-  const cats=['loyer','food','trans','util','health','fun','other'];
+  const cats=['loyer','eau','elec','food','trans','net','health','fun','other'];
   const data={};
   cats.forEach(k=>{ const el=$('exp-'+k); if(el) data[k]=parseFloat(el.value)||0; });
   const total=Object.values(data).reduce((a,b)=>a+b,0);
@@ -3502,16 +3990,24 @@ function saveMonthExpenses(monthKey, sal){
   loadTrackerHistory();
   // Flash success on ANY save button in tracker
   const btn=document.querySelector('.exp-save-btn');
-  if(btn){ const orig=btn.textContent; btn.textContent='✅ Sauvegardé !'; btn.style.background='var(--olive)'; setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000); }
+  if(btn){ const orig=btn.textContent; const savedTxt2=state.lang==='ar'?'✅ تم الحفظ !':state.lang==='en'?'✅ Saved!':'✅ Sauvegardé !'; btn.textContent=savedTxt2; btn.style.background='var(--olive)'; setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000); }
 }
 
 function exportMonthReport(monthKey, sal){
   const cats=[
-    {k:'loyer',  label:'Loyer / Logement',  icon:'🏠', pct:0.25, advice:{
+    {k:'loyer',  label:'Loyer / Logement',  icon:'🏠', pct:0.25, optional:true, advice:{
       ok:'Votre loyer est dans les limites recommandées. Continuez ainsi.',
       over:'Votre loyer dépasse 25% de votre salaire. Envisagez un logement moins cher, de chercher un colocataire, ou de négocier votre loyer lors du renouvellement.'
     }},
-    {k:'food',   label:'Alimentation',       icon:'🛒', pct:0.18, advice:{
+    {k:'eau',    label:'Eau (facture)',       icon:'🚰', pct:0.03, advice:{
+      ok:'Votre facture d\'eau est bien maîtrisée.',
+      over:'Facture d\'eau élevée. Réduisez la durée de vos douches, réparez les fuites et évitez de laisser couler l\'eau inutilement.'
+    }},
+    {k:'elec',   label:'Électricité',         icon:'⚡', pct:0.04, advice:{
+      ok:'Votre facture d\'électricité est bien contrôlée.',
+      over:'Facture électricité élevée. Débranchez les appareils en veille, utilisez des ampoules LED et évitez la climatisation excessive.'
+    }},
+    {k:'food',   label:'Alimentation',        icon:'🛒', pct:0.18, optional:true, advice:{
       ok:'Vos dépenses alimentaires sont bien maîtrisées.',
       over:'Vous dépassez le budget alimentaire recommandé (18%). Essayez de cuisiner à la maison 4-5 jours/semaine, de faire vos courses à Bim ou Atacadão, et de planifier vos repas à l\'avance.'
     }},
@@ -3519,9 +4015,9 @@ function exportMonthReport(monthKey, sal){
       ok:'Vos frais de transport sont raisonnables.',
       over:'Transport au-dessus de 9%. Pensez au covoiturage avec des collègues, aux transports en commun, ou à un vélo pour les courts trajets.'
     }},
-    {k:'util',   label:'Eau · Élec · Net',    icon:'💡', pct:0.07, advice:{
-      ok:'Vos factures eau/électricité sont bien contrôlées.',
-      over:'Factures élevées (dépassement du budget 7%). Débranchez les appareils en veille, utilisez des ampoules LED, douchez-vous en moins de 5 min, et évitez la climatisation excessive.'
+    {k:'net',    label:'Internet / Net',      icon:'📶', pct:0.02, advice:{
+      ok:'Vos frais Internet sont bien contrôlés.',
+      over:'Abonnement Internet élevé. Comparez les offres Maroc Telecom, Orange et Inwi pour trouver le meilleur rapport qualité-prix.'
     }},
     {k:'health', label:'Santé & Hygiène',     icon:'🏥', pct:0.05, advice:{
       ok:'Dépenses santé dans la norme.',
@@ -3537,16 +4033,23 @@ function exportMonthReport(monthKey, sal){
     }},
   ];
 
-  // Read current inputs
+  // Read current inputs (skip optional if unchecked)
   const data={};
-  cats.forEach(c=>{ const el=$('exp-'+c.k); data[c.k]=parseFloat(el?.value)||0; });
+  cats.forEach(c=>{
+    const cb=document.getElementById('opt-'+c.k);
+    if(c.optional && cb && !cb.checked){ data[c.k]=0; return; }
+    const el=$('exp-'+c.k);
+    data[c.k]=parseFloat(el?.value)||0;
+  });
   const total=Object.values(data).reduce((a,b)=>a+b,0);
   const balance=sal-total;
   const savingRate=sal>0?Math.round((balance/sal)*100):0;
 
   // Build advice lines
-  const now=new Date();
-  const monthName=now.toLocaleDateString('fr-MA',{month:'long',year:'numeric'});
+  const now2=new Date();
+  const rL=state.lang;
+  const rt={fr:{report:'Rapport Mensuel Mizan',user:'Utilisateur',summary:'Résumé financier',salLbl:'Salaire',expLbl:'Dépenses',savLbl:'Épargne',defLbl:'Déficit',overTitle:'⚠️ Catégories à réduire',okTitle:'✅ Points positifs ce mois',budgetLbl:'Budget',footer:'Généré par Mizan'},en:{report:'Monthly Report — Mizan',user:'User',summary:'Financial summary',salLbl:'Salary',expLbl:'Expenses',savLbl:'Savings',defLbl:'Deficit',overTitle:'⚠️ Categories to reduce',okTitle:'✅ Highlights this month',budgetLbl:'Budget',footer:'Generated by Mizan'},ar:{report:'التقرير الشهري — ميزان',user:'مستخدم',summary:'الملخص المالي',salLbl:'الراتب',expLbl:'المصاريف',savLbl:'التوفير',defLbl:'عجز',overTitle:'⚠️ فئات يجب تقليصها',okTitle:'✅ نقاط إيجابية هذا الشهر',budgetLbl:'الميزانية',footer:'أُنشئ بواسطة ميزان'}}[rL]||{report:'Rapport Mensuel Mizan',user:'Utilisateur',summary:'Résumé financier',salLbl:'Salaire',expLbl:'Dépenses',savLbl:'Épargne',defLbl:'Déficit',overTitle:'⚠️ Catégories à réduire',okTitle:'✅ Points positifs ce mois',budgetLbl:'Budget',footer:'Généré par Mizan'};
+  const monthName=now2.toLocaleDateString(rL==='ar'?'ar-MA':rL==='en'?'en-GB':'fr-MA',{month:'long',year:'numeric'});
   let overBudget=[], okBudget=[];
   cats.forEach(c=>{
     const budget=Math.round(sal*c.pct);
@@ -3589,20 +4092,20 @@ function exportMonthReport(monthKey, sal){
 </style>
 </head>
 <body>
-  <h1>📊 Rapport Mensuel Mizan</h1>
-  <div class="sub">${monthName} · ${state.name||'Utilisateur'} · ${state.city}</div>
+  <h1>📊 ${rt.report}</h1>
+  <div class="sub">${monthName} · ${state.name||rt.user} · ${state.city}</div>
 
   <div class="status" style="background:${overallColor}15;border-color:${overallColor}40;color:${overallColor}">${overallMsg}</div>
 
-  <div class="section-title">Résumé financier</div>
+  <div class="section-title">${rt.summary}</div>
   <div class="summary">
-    <div class="sum-item"><div class="sum-v">${Math.round(sal).toLocaleString('fr-MA')} DH</div><div class="sum-l">Salaire</div></div>
-    <div class="sum-item"><div class="sum-v" style="color:#C4623A">${Math.round(total).toLocaleString('fr-MA')} DH</div><div class="sum-l">Dépenses</div></div>
-    <div class="sum-item"><div class="sum-v" style="color:${balance>=0?'#7A9E5F':'#C4623A'}">${Math.round(balance).toLocaleString('fr-MA')} DH</div><div class="sum-l">${balance>=0?'Épargne':'Déficit'} (${savingRate}%)</div></div>
+    <div class="sum-item"><div class="sum-v">${Math.round(sal).toLocaleString('fr-MA')} DH</div><div class="sum-l">${rt.salLbl}</div></div>
+    <div class="sum-item"><div class="sum-v" style="color:#C4623A">${Math.round(total).toLocaleString('fr-MA')} DH</div><div class="sum-l">${rt.expLbl}</div></div>
+    <div class="sum-item"><div class="sum-v" style="color:${balance>=0?'#7A9E5F':'#C4623A'}">${Math.round(balance).toLocaleString('fr-MA')} DH</div><div class="sum-l">${balance>=0?rt.savLbl:rt.defLbl} (${savingRate}%)</div></div>
   </div>
 
   ${overBudget.length>0?`
-  <div class="section-title">⚠️ Catégories à réduire</div>
+  <div class="section-title">${rt.overTitle}</div>
   ${overBudget.map(c=>`
   <div class="cat-row">
     <div class="cat-left">
@@ -3611,11 +4114,11 @@ function exportMonthReport(monthKey, sal){
     </div>
     <div class="cat-nums">
       <div class="over">${Math.round(c.spent).toLocaleString('fr-MA')} DH (${c.pctSpent}%)</div>
-      <div style="color:#9A7060">Budget: ${Math.round(c.budget).toLocaleString('fr-MA')} DH (${Math.round(c.pct*100)}%)</div>
+      <div style="color:#9A7060">${rt.budgetLbl}: ${Math.round(c.budget).toLocaleString('fr-MA')} DH (${Math.round(c.pct*100)}%)</div>
     </div>
   </div>`).join('')}`:''}
 
-  <div class="section-title">✅ Points positifs ce mois</div>
+  <div class="section-title">${rt.okTitle}</div>
   ${okBudget.map(c=>`
   <div class="cat-row">
     <div class="cat-left">
@@ -3624,11 +4127,11 @@ function exportMonthReport(monthKey, sal){
     </div>
     <div class="cat-nums">
       <div class="ok">${Math.round(c.spent).toLocaleString('fr-MA')} DH (${c.pctSpent}%)</div>
-      <div style="color:#9A7060">Budget: ${Math.round(c.budget).toLocaleString('fr-MA')} DH</div>
+      <div style="color:#9A7060">${rt.budgetLbl}: ${Math.round(c.budget).toLocaleString('fr-MA')} DH</div>
     </div>
   </div>`).join('')}
 
-  <div class="footer">Généré par Mizan · mizan-budget.web.app · ${new Date().toLocaleDateString('fr-MA')}</div>
+  <div class="footer">${rt.footer} · mizan-budget.web.app · ${now2.toLocaleDateString(rL==='ar'?'ar-MA':rL==='en'?'en-GB':'fr-MA')}</div>
 </body></html>`;
 
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -3665,17 +4168,21 @@ function loadTrackerHistory(){
     }
   }
   months.sort((a,b)=>b.mk.localeCompare(a.mk));
-  if(!months.length){ $('exp-history-list').innerHTML='<div class="exp-empty">Aucun historique pour l\'instant. Sauvegardez votre premier mois !</div>'; return; }
-  $('exp-history-list').innerHTML='<div class="sec-h" style="margin-top:10px;margin-bottom:10px">📋 Historique</div>'+
+  if(!months.length){ $('exp-history-list').innerHTML=`<div class="exp-empty">${state.lang==='ar'?'لا سجل بعد. احفظ شهرك الأول!':state.lang==='en'?'No history yet. Save your first month!':'Aucun historique pour l\'instant. Sauvegardez votre premier mois !'}</div>`; return; }
+  const histTitle=state.lang==='ar'?'📋 السجل':state.lang==='en'?'📋 History':'📋 Historique';
+  const depLbl=state.lang==='ar'?'مصاريف':state.lang==='en'?'Exp':'Dép';
+  const savLbl=state.lang==='ar'?'توفير':state.lang==='en'?'Saving':'Épargne';
+  const defLbl=state.lang==='ar'?'عجز':state.lang==='en'?'Deficit':'Déficit';
+  $('exp-history-list').innerHTML=`<div class="sec-h" style="margin-top:10px;margin-bottom:10px">${histTitle}</div>`+
     months.slice(0,6).map(({mk,d})=>{
       const [y,m]=mk.split('-');
-      const mn=new Date(y,m-1).toLocaleDateString('fr-MA',{month:'long',year:'numeric'});
+      const mn=new Date(y,m-1).toLocaleDateString(state.lang==='ar'?'ar-MA':state.lang==='en'?'en-GB':'fr-MA',{month:'long',year:'numeric'});
       const balance=d._sal-(d._total||0);
       return `<div class="exp-hist-item">
         <div class="exp-hist-month">${mn}</div>
         <div class="exp-hist-badges">
-          <span class="exp-hist-badge spent">Dép: ${Math.round(d._total||0).toLocaleString('fr-MA')} DH</span>
-          <span class="exp-hist-badge saved">${balance>=0?'Épargne':'Déficit'}: ${Math.abs(Math.round(balance)).toLocaleString('fr-MA')} DH</span>
+          <span class="exp-hist-badge spent">${depLbl}: ${Math.round(d._total||0).toLocaleString('fr-MA')} DH</span>
+          <span class="exp-hist-badge saved">${balance>=0?savLbl:defLbl}: ${Math.abs(Math.round(balance)).toLocaleString('fr-MA')} DH</span>
         </div>
       </div>`;
     }).join('');
@@ -3909,7 +4416,15 @@ function setLang(lang,btn){
   }
   refreshWelcome();
   refreshModals();
+  
   if($('sp').classList.contains('active')) refreshPricing();
+  if($('sd').classList.contains('active')){
+    // Reconstruire tout le dashboard pour appliquer la langue
+    buildDashboard(); // Ceci reconstruit TOUS les onglets, y compris Pro
+  }
+  if($('s1').classList.contains('active')) initStep1();
+  if($('s2').classList.contains('active')) initStep2();
+  if($('s3').classList.contains('active')) initStep3();
 }
 
 function refreshModals(){
@@ -3917,12 +4432,12 @@ function refreshModals(){
   const p=TRANSLATIONS[L]||TRANSLATIONS.fr;
   const isAr=L==='ar';
 
-  // ── Login modal ──
+  // Login modal
   if($('login-ttl')) $('login-ttl').textContent=p.login_ttl||'Accès Mizan Pro';
   if($('tab-login-btn')) $('tab-login-btn').textContent=p.login_tab||'Se connecter';
   if($('tab-register-btn')) $('tab-register-btn').textContent=p.reg_tab||'Créer un compte';
 
-  // ── Register secret question options ──
+  // Register secret question options
   const rq=$('reg-question');
   if(rq){
     rq.options[0].text=p.reg_q_placeholder||'-- Choisissez --';
@@ -3931,7 +4446,7 @@ function refreshModals(){
     });
   }
 
-  // ── Payment modal ──
+  // Payment modal
   if($('pay-modal-ttl')) $('pay-modal-ttl').textContent=p.pay_ttl||'💳 Activer Mizan Pro';
   if($('pay-plan-name')) $('pay-plan-name').textContent='Mizan Pro — '+(isAr?'اشتراك شهري':L==='en'?'Monthly subscription':'Abonnement mensuel');
   if($('pay-plan-period')) $('pay-plan-period').textContent=isAr?'يُفعَّل بعد التحقق':L==='en'?'Access activated after verification':'Accès activé après vérification';
@@ -3995,6 +4510,27 @@ function refreshModals(){
   // Pending modal
   const pendTtl=document.querySelector('#modal-pending .modal-ttl');
   if(pendTtl) pendTtl.textContent=p.pending_ttl||'Accès en cours de validation';
+  if($('pending-modal-sub')) $('pending-modal-sub').innerHTML=isAr?'تحويلك قيد التحقق.<br>سيُفعَّل وصول Pro خلال <strong>24 ساعة</strong>.':L==='en'?'Your transfer is being verified.<br>Pro access will be activated within <strong>24h</strong>.':'Votre virement est en cours de vérification.<br>Votre accès Pro sera activé sous <strong>24h</strong>.';
+  if($('pending-modal-lite-btn')) $('pending-modal-lite-btn').textContent=isAr?'المتابعة في Lite الآن':L==='en'?'Continue in Lite for now':'Continuer en Lite pour l\'instant';
+
+  // Lock overlays (Pro feature tabs)
+  const lockFeatureTxt=L==='ar'?'ميزة Pro':L==='en'?'Pro Feature':'Fonctionnalité Pro';
+  const lockFeatureSub=L==='ar'?'انتقل إلى Mizan Pro للوصول':L==='en'?'Upgrade to Mizan Pro to access':'Passez à Mizan Pro pour accéder';
+  if($('lock-txt1')) $('lock-txt1').textContent=lockFeatureTxt;
+  if($('lock-sub1')) $('lock-sub1').textContent=lockFeatureSub;
+  if($('lock-txt2')) $('lock-txt2').textContent=lockFeatureTxt;
+  if($('lock-sub2')) $('lock-sub2').textContent=lockFeatureSub;
+
+  // Pro lock upsell modal
+  if($('prolock-ttl')) $('prolock-ttl').textContent=L==='ar'?'ميزة Mizan Pro':L==='en'?'Mizan Pro Feature':'Fonctionnalité Mizan Pro';
+  if($('prolock-sub')) $('prolock-sub').textContent=lockFeatureSub;
+  
+  // Privacy button
+  const privacyLabel=L==='ar'?'🔒 الخصوصية':L==='en'?'🔒 Privacy':'🔒 Confidentialité';
+  document.querySelectorAll('button[onclick="openPrivacy()"]').forEach(btn=>{ if(btn) btn.textContent=privacyLabel; });
+
+  // Nav edit button
+  if($('nav-edit-btn')) $('nav-edit-btn').textContent=L==='ar'?'✏️ تعديل':L==='en'?'✏️ Edit':'✏️ Modifier';
 }
 
 function refreshWelcome(){
@@ -4199,7 +4735,14 @@ function initStep3(){
     let hint=document.getElementById('time-hint-box');
     if(!hint){ hint=document.createElement('div'); hint.id='time-hint-box'; hint.style.cssText='font-size:11px;color:var(--brown4);margin-top:8px;padding:8px 12px;background:rgba(201,151,58,.07);border-radius:8px;border:1px solid rgba(201,151,58,.2)'; $('time-grid').parentNode.insertBefore(hint,$('time-grid').nextSibling); }
     hint.style.display=filteredCount>0?'block':'none';
-    if(filteredCount>0) hint.textContent=`ℹ️ ${filteredCount} option${filteredCount>1?'s':''}  trop courte${filteredCount>1?'s':''} masquée${filteredCount>1?'s':''} — avec votre épargne de ${Math.round(spM).toLocaleString('fr-MA')} DH/mois, il vous faut au minimum ${minM} mois pour atteindre cet objectif.`;
+    if(filteredCount>0){
+      const hintText=state.lang==='ar'
+        ?`ℹ️ ${filteredCount} خيار${filteredCount>1?'ات':''} قصيرة جداً — بادخارك ${Math.round(spM).toLocaleString('fr-MA')} درهم/شهر، تحتاج على الأقل ${minM} شهراً لتحقيق هذا الهدف.`
+        :state.lang==='en'
+        ?`ℹ️ ${filteredCount} option${filteredCount>1?'s':''} too short — with your savings of ${Math.round(spM).toLocaleString('fr-MA')} DH/month, you need at least ${minM} months to reach this goal.`
+        :`ℹ️ ${filteredCount} option${filteredCount>1?'s':''}  trop courte${filteredCount>1?'s':''} masquée${filteredCount>1?'s':''} — avec votre épargne de ${Math.round(spM).toLocaleString('fr-MA')} DH/mois, il vous faut au minimum ${minM} mois pour atteindre cet objectif.`;
+      hint.textContent=hintText;
+    }
   }
 
   renderTimeGrid(state.goalAmount);
@@ -4317,6 +4860,7 @@ function buildDashboard(){
 
   // Tabs + panels
   buildTabs();
+  refreshProTabs();
   buildBudgetTab(sal);
   buildGoalTab(sal,savePm,monthsCalc,state.goalAmount);
   buildTipsTab();
@@ -4338,6 +4882,8 @@ function buildDashboard(){
       saveSession(proUser);
     }
   }
+  // AJOUTER CET APPEL POUR METTRE À JOUR LES TITRES DES ONGLETS PRO
+  refreshProTabs();
   // Lite users do NOT get tracker or invest tabs — buildTabs() handles tab visibility
 
   // Modal
@@ -4674,17 +5220,15 @@ function renderStoreSection(sec){
   return html;
 }
 
-/* ════════════════════ APP BOOT ════════════════════ */
-document.addEventListener('DOMContentLoaded', function(){
-  // 1. Load existing session
+/* ════════════════════ INITIALIZATION ════════════════════ */
+(function(){
   proUser = loadProUser();
-
-  // 2. If Pro session active → go straight to dashboard
-  if(proUser && isProActive()){
-    if(proUser.firstName) state.name = proUser.firstName;
+  if(proUser && proUser.expiry && Date.now() < proUser.expiry){
     state.plan = 'pro';
+    if(proUser.firstName) state.name = proUser.firstName;
+    // Try to restore last state from Pro user account
     const savedState = getLastKnownState(proUser);
-    if(savedState && savedState.salary && savedState.goal && savedState.months){
+    if(savedState){
       state.salary    = savedState.salary;
       state.city      = savedState.city || state.city;
       state.goal      = savedState.goal;
@@ -4692,32 +5236,42 @@ document.addEventListener('DOMContentLoaded', function(){
       state.goalAmount= savedState.goalAmount || 20000;
       state.lang      = savedState.lang || state.lang;
       state.name      = savedState.name || state.name;
-      try { buildDashboard(); } catch(e){ console.error('Boot buildDashboard error:', e); goTo('sw'); }
-      return;
+      buildDashboard();
+    } else {
+      initStep1(); goTo('s1');
     }
-    // Pro but no saved state → onboarding
-    initStep1(); goTo('s1');
-    return;
+  } else {
+    refreshWelcome();
   }
-
-  // 3. Welcome screen — refresh dynamic text and modals
-  try { refreshWelcome(); } catch(e){ console.warn('refreshWelcome boot error:', e); }
-  try { refreshModals(); } catch(e){ console.warn('refreshModals boot error:', e); }
-  goTo('sw');
-
-  // 4. Backdrop click-to-close for all modals (except payment which needs explicit action)
-  document.querySelectorAll('.modal-bg').forEach(function(bg){
-    bg.addEventListener('click', function(e){
-      if(e.target !== bg) return; // only fire when clicking the backdrop itself
-      const id = bg.id;
-      if(id === 'modal-payment') return; // payment requires deliberate close
-      if(id === 'modal-privacy') { closePrivacy(); return; }
-      if(id === 'modal-edit') { closeModalEdit(); return; }
-      closeModal(id);
-    });
+})();
+// Ajouter cette fonction refreshProTabs
+function refreshProTabs(){
+  const isPro = isProActive() || (state.plan === 'pro');
+  if(!isPro) return;
+  
+  const L = state.lang;
+  const proLabels = TABS_LABELS_PRO[L] || TABS_LABELS_PRO.fr;
+  const tabsHdr = $('tabs-hdr');
+  if(!tabsHdr) return;
+  
+  // Mettre à jour les textes des onglets Pro
+  const tbButtons = tabsHdr.querySelectorAll('.tb');
+  proLabels.forEach((label, idx) => {
+    if(tbButtons[idx]) tbButtons[idx].textContent = label;
   });
-});
+  
+  // RECONSTRUIRE LE CONTENU DES ONGLETS PRO EN ARABE
+  const sal = state.salary;
+  if(isPro){
+    buildTrackerTab(sal);
+    buildInvestTab(sal);
+  }
+}
+// Close the IIFE and add DOM ready listener
 
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('✅ Mizan fully loaded — all systems operational');
+});
 </script>
 </body>
 </html>
