@@ -120,7 +120,7 @@ input[type=range].slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
 .gc.gc-prolocked:hover{border-color:rgba(201,151,58,.55);background:rgba(201,151,58,.04);transform:none;box-shadow:none}
 .gc-lock-badge{font-size:10px;font-weight:700;color:var(--gold-dk);background:rgba(201,151,58,.13);border:1px solid rgba(201,151,58,.28);border-radius:100px;padding:2px 8px;margin-top:-2px;letter-spacing:.02em}
 
-/* ── SHARED PRO-LOCK FRAME ── */
+/* SHARED PRO-LOCK FRAME */
 .pro-blur-frame{
   position:relative;
   border:1.5px solid rgba(201,151,58,.35);
@@ -381,7 +381,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 .modal-x{background:none;border:none;font-size:22px;color:var(--brown3);cursor:pointer;padding:4px 8px;border-radius:var(--rsm);transition:all .2s;line-height:1}
 .modal-x:hover{background:var(--beige2);color:var(--brown)}
 
-/* ── PRICING SCREEN ── */
+/* PRICING SCREEN */
 #sp{background:linear-gradient(160deg,var(--cream) 0%,var(--beige2) 50%,#e0d5bf 100%);min-height:100vh;padding:48px 20px 60px;display:none}
 #sp.active{display:block}
 .sp-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--brown3);font-size:13px;font-family:var(--fb);cursor:pointer;margin-bottom:28px;padding:0;transition:color .2s}
@@ -449,7 +449,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 /* Pro nav badge */
 .nav-pro-badge{background:linear-gradient(90deg,var(--gold-dk),var(--gold));color:var(--cream);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.04em}
 
-/* ── LOGIN MODAL ── */
+/* LOGIN MODAL */
 .modal-lg{max-width:420px}
 .auth-tabs{display:flex;background:var(--beige2);border-radius:100px;padding:4px;margin-bottom:22px}
 .auth-tab{flex:1;padding:9px;border:none;border-radius:100px;background:transparent;font-size:13px;font-weight:500;color:var(--brown3);cursor:pointer;font-family:var(--fb);transition:all .2s}
@@ -465,7 +465,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 .auth-ok{font-size:12px;color:var(--olive);padding:9px 13px;background:rgba(122,158,95,.07);border:1px solid rgba(122,158,95,.2);border-radius:var(--rsm);display:none}
 .auth-ok.show{display:block}
 
-/* ── PAYMENT MODAL ── */
+/* PAYMENT MODAL */
 .modal-pay{max-width:480px}
 .pay-plan-summary{background:var(--brown);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .pay-plan-l{font-size:13px;color:rgba(253,250,243,.6)}
@@ -487,7 +487,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
 .pay-success-ttl{font-family:var(--fd);font-size:22px;color:var(--brown);font-weight:700;margin-bottom:6px}
 .pay-success-sub{font-size:13px;color:var(--brown3);line-height:1.6}
 
-/* ── PRO DASHBOARD EXTRAS ── */
+/* PRO DASHBOARD EXTRAS */
 .pro-hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,151,58,.15);border:1px solid rgba(201,151,58,.3);color:var(--gold-dk);font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;margin-bottom:8px;letter-spacing:.05em}
 
 /* Expense tracker */
@@ -1381,7 +1381,7 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
   </div>
 </div>
 
-<!-- MODAL EDIT -->
+<!-- MODAL EDIT (salary/city) -->
 <div class="modal-bg" id="modal-edit">
   <div class="modal">
     <div class="modal-h">
@@ -1397,6 +1397,29 @@ body.rtl .tip{border-left:1px solid var(--beige3);border-right:4px solid}
       <select id="me-city" class="sel"></select>
     </div>
     <button class="bpri" style="width:100%;justify-content:center;margin-top:8px" onclick="applyEdit()" id="me-ok">Appliquer</button>
+  </div>
+</div>
+
+<!-- MODAL EDIT GOAL (NEW) -->
+<div class="modal-bg" id="modal-edit-goal">
+  <div class="modal">
+    <div class="modal-h">
+      <div class="modal-ttl" id="meg-ttl">Modifier mon objectif</div>
+      <button class="modal-x" onclick="closeModal('modal-edit-goal')">✕</button>
+    </div>
+    <div class="fg">
+      <label class="lbl" id="meg-goal-l">Nouvel objectif</label>
+      <select id="meg-goal" class="sel"></select>
+    </div>
+    <div class="fg">
+      <label class="lbl" id="meg-amount-l">Montant à atteindre (DH)</label>
+      <input id="meg-amount" class="inp" type="number" min="100" placeholder="Ex: 50000">
+    </div>
+    <div class="fg">
+      <label class="lbl" id="meg-months-l">Délai (mois)</label>
+      <input id="meg-months" class="inp" type="number" min="1" max="360" placeholder="Ex: 12">
+    </div>
+    <button class="bpri" style="width:100%;justify-content:center;margin-top:8px" onclick="saveGoalEdit()" id="meg-ok">Appliquer</button>
   </div>
 </div>
 
@@ -1842,6 +1865,8 @@ const TRANSLATIONS = {
     err_sal:"Veuillez entrer un salaire valide (min. 1 500 DH)",err_goal:"Veuillez choisir un objectif.",err_time:"Veuillez choisir un délai.",
     city_lbl_0:"Loyer studio",city_lbl_1:"Alimentation",city_lbl_2:"Transport",city_lbl_3:"Eau & Élec",city_lbl_4:"Niveau ville",
     tier_high:"Élevé 🔴",tier_mid:"Moyen 🟡",tier_low:"Accessible 🟢",
+    // Goal edit modal
+    meg_ttl:"Modifier mon objectif", meg_goal_l:"Nouvel objectif", meg_amount_l:"Montant à atteindre (DH)", meg_months_l:"Délai (mois)", meg_ok:"Appliquer",
   },
   en:{
     tagline:"Manage your money intelligently based on your salary, city and personal goals.",
@@ -1905,6 +1930,8 @@ const TRANSLATIONS = {
     err_sal:"Please enter a valid salary (min. 1,500 DH)",err_goal:"Please choose a goal.",err_time:"Please choose a timeline.",
     city_lbl_0:"Studio rent",city_lbl_1:"Food",city_lbl_2:"Transport",city_lbl_3:"Water & Elec",city_lbl_4:"City level",
     tier_high:"High 🔴",tier_mid:"Medium 🟡",tier_low:"Affordable 🟢",
+    // Goal edit modal
+    meg_ttl:"Edit my goal", meg_goal_l:"New goal", meg_amount_l:"Target amount (DH)", meg_months_l:"Timeline (months)", meg_ok:"Apply",
   },
   ar:{
     tagline:"دبّر أمورك المالية بذكاء حسب راتبك ومدينتك وأهدافك الشخصية.",
@@ -1968,6 +1995,8 @@ const TRANSLATIONS = {
     err_sal:"الرجاء إدخال راتب صحيح (الحد الأدنى 1500 درهم)",err_goal:"الرجاء اختيار هدف.",err_time:"الرجاء اختيار مدة.",
     city_lbl_0:"إيجار شقة",city_lbl_1:"الغذاء",city_lbl_2:"النقل",city_lbl_3:"الماء والكهرباء",city_lbl_4:"مستوى المدينة",
     tier_high:"مرتفع 🔴",tier_mid:"متوسط 🟡",tier_low:"معقول 🟢",
+    // Goal edit modal
+    meg_ttl:"تعديل هدفي", meg_goal_l:"الهدف الجديد", meg_amount_l:"المبلغ المستهدف (درهم)", meg_months_l:"المدة (شهراً)", meg_ok:"تطبيق",
   }
 };
 
@@ -2082,9 +2111,6 @@ const INV_TEXTS = {
     risk_high: "✅ حلال (بعد التصفية) · مخاطرة عالية"
   }
 };
-
-/* ════════════ GOAL PHASES — FULLY TRANSLATED ════════════ */
-// (already present above, keep as is)
 
 /* ════════════ DATA ENDS ════════════ */
 
@@ -3894,15 +3920,15 @@ function buildDailyTable(sal, monthKey){
     }
     const dayName=new Date(yr,mo-1,d).toLocaleDateString('fr-MA',{weekday:'short'});
     rows+=`<tr class="${isToday?'today-row':''}">
-      <td class="daily-day-cell">${isToday?'📍 ':''}<span dir="ltr">${d} ${dayName.charAt(0).toUpperCase()+dayName.slice(1)}</span></td>
+      <td class="daily-day-cell">${isToday?'📍 ':''}<span dir="ltr">${d} ${dayName.charAt(0).toUpperCase()+dayName.slice(1)}</span> |
       <td>
         <div class="daily-inp-wrap">
           <span class="daily-inp-prefix">DH</span>
           <input class="daily-inp" type="number" min="0" id="daily-d${d}" placeholder="0" value="${val||''}" ${isFuture?'disabled style="opacity:.4;cursor:not-allowed"':''} oninput="refreshDailyStatus(${sal},'${monthKey}')">
         </div>
-      </td>
-      <td style="text-align:center" id="daily-status-d${d}">${statusHtml}</td>
-    </tr>`;
+       |
+      <td style="text-align:center" id="daily-status-d${d}">${statusHtml} |
+     `;
   }
   tbody.innerHTML=rows;
 
@@ -3918,7 +3944,7 @@ function buildDailyTable(sal, monthKey){
     <td style="text-align:center;font-size:12px;color:${balance>=0?'var(--olive)':'var(--terra)'}">
       ${balance>=0?savingWord:overWord} : ${Math.round(Math.abs(balance)).toLocaleString('fr-MA')} DH
     </td>
-  </tr>`;
+   `;
 }
 
 function refreshDailyStatus(sal, monthKey){
@@ -3980,7 +4006,7 @@ function refreshDailyStatus(sal, monthKey){
       <td style="text-align:center;font-size:12px;color:${balance>=0?'var(--olive)':'var(--terra)'}">
         ${balance>=0?savingWord2:overWord2} : ${Math.round(Math.abs(balance)).toLocaleString('fr-MA')} DH
       </td>
-    </tr>`;
+     `;
   }
 }
 
@@ -4328,6 +4354,48 @@ function calcNW(){
   if($('nw-result')){
     $('nw-result').textContent=Math.round(net).toLocaleString('fr-MA')+' DH';
     $('nw-result').style.color=net>=0?'var(--gold-lt)':'var(--terra)';
+  }
+}
+
+/* ── GOAL EDIT MODAL ── */
+function openGoalEditModal(){
+  if(!isProActive()) return;
+  const L=state.lang;
+  const goals = GOALS_DATA[L] || GOALS_DATA.fr;
+  const goalSel = document.getElementById('meg-goal');
+  if(goalSel){
+    goalSel.innerHTML = goals.map(g => `<option value="${g.id}" ${state.goal===g.id?'selected':''}>${g.ic} ${g.lb}</option>`).join('');
+  }
+  document.getElementById('meg-amount').value = state.goalAmount;
+  document.getElementById('meg-months').value = state.months;
+
+  document.getElementById('meg-ttl').textContent = t('meg_ttl');
+  document.getElementById('meg-goal-l').textContent = t('meg_goal_l');
+  document.getElementById('meg-amount-l').textContent = t('meg_amount_l');
+  document.getElementById('meg-months-l').textContent = t('meg_months_l');
+  document.getElementById('meg-ok').textContent = t('meg_ok');
+  openModal('modal-edit-goal');
+}
+
+function saveGoalEdit(){
+  const newGoal = document.getElementById('meg-goal').value;
+  const newAmount = parseInt(document.getElementById('meg-amount').value);
+  const newMonths = parseInt(document.getElementById('meg-months').value);
+  if(!newGoal){ alert(t('err_goal')); return; }
+  if(!newAmount || newAmount < 100){ alert('Veuillez entrer un montant valide (min. 100 DH)'); return; }
+  if(!newMonths || newMonths < 1){ alert('Veuillez entrer une durée valide (min. 1 mois)'); return; }
+
+  state.goal = newGoal;
+  state.goalAmount = newAmount;
+  state.months = newMonths;
+
+  closeModal('modal-edit-goal');
+  buildDashboard();
+  // Switch to goal tab
+  const goalTabIndex = TAB_IDS_PRO.indexOf('tp-goal');
+  if(goalTabIndex !== -1){
+    document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',i===goalTabIndex));
+    TAB_IDS_PRO.forEach((id,i)=>$(id)&&$(id).classList.toggle('on',i===goalTabIndex));
   }
 }
 
@@ -5018,7 +5086,9 @@ function buildGoalTab(sal,savePm,monthsCalc,goalAmt){
       <div class="gcs"><div class="gcs-v">${fmt(savePm)}</div><div class="gcs-l">DH/${t('month_u')}</div></div>
       <div class="gcs"><div class="gcs-v">${monthsCalc}</div><div class="gcs-l">${t('months_u')}</div></div>
       <div class="gcs"><div class="gcs-v">${yrs>0?yrs+'a ':''} ${mos}m</div><div class="gcs-l">${t('dur_l')}</div></div>
-    </div>`;
+    </div>
+    ${isProActive() ? `<div style="text-align:right;margin-top:12px"><button class="nav-btn" onclick="openGoalEditModal()" style="border-color:var(--gold);color:var(--gold-dk);font-weight:600">✏️ ${t('meg_ttl')}</button></div>` : ''}
+  `;
 
   const phasesData=GOAL_PHASES[state.lang]||GOAL_PHASES.fr;
   const phases=phasesData[state.goal]||phasesData.other;
